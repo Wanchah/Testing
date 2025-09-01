@@ -81,8 +81,8 @@ EduMorph is a comprehensive AI-powered educational platform that transforms any 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/edumorph.git
-   cd edumorph
+   git clone https://github.com/Wanchah/Testing.git
+   cd Testing
    ```
 
 2. **Create virtual environment**
