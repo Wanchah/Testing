@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="dashboard-container">
+  <h2 class="dashboard-title">🎓 Student Dashboard</h2>
+  <div class="dashboard-welcome">
+    <p>Welcome, <strong>{{ current_user.username }}</strong>!</p>
+    <p>Track your learning progress, view recommended lessons, and explore your analytics below.</p>
+  </div>
+  <div class="dashboard-cards">
+    <div class="card progress-card">
+      <h3>Learning Streak</h3>
+      <div class="progress-bar">
+        <div class="progress" style="width: {{ streak_percent|default(60) }}%;"></div>
+      </div>
+      <p>{{ streak_days|default(5) }} days active</p>
+    </div>
+    <div class="card lessons-card">
+      <h3>Recent Lessons</h3>
+      <ul>
+        {% for lesson in recent_lessons|default([]) %}
+          <li><a href="/lessons/{{ lesson.id }}">{{ lesson.title }}</a></li>
+        {% else %}
+          <li>No recent lessons found.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card recommended-card">
+      <h3>Recommended for You</h3>
+      <ul>
+        {% for lesson in recommended_lessons|default([]) %}
+          <li><a href="/lessons/{{ lesson.id }}">{{ lesson.title }}</a></li>
+        {% else %}
+          <li>No recommendations yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card analytics-card">
+      <h3>Performance Analytics</h3>
+      <p>Average Score: <strong>{{ avg_score|default(85) }}%</strong></p>
+      <p>Lessons Completed: <strong>{{ lessons_completed|default(12) }}</strong></p>
+    </div>
+  </div>
+</section>
+<style>
+  .dashboard-container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+  .dashboard-title { font-size: 2rem; margin-bottom: 1rem; }
+  .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+  .progress-bar { background: #eee; border-radius: 8px; height: 18px; margin: 0.5rem 0; }
+  .progress { background: #4f8cff; height: 100%; border-radius: 8px; }
+  .dashboard-welcome { margin-bottom: 2rem; }
+</style>
+{% endblock %}

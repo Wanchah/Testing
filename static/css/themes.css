@@ -1,0 +1,427 @@
+/* EduMorph - Age-Adaptive Themes */
+/* Different visual styles for different age groups */
+
+/* Children Theme (5-12 years) */
+.children-theme {
+    --primary-color: #EF4444;
+    --secondary-color: #22C55E;
+    --accent-color: #F97316;
+    --text-color: #1F2937;
+    --bg-color: #FEF7FF;
+    --card-bg: #FFFFFF;
+    --border-color: #F3E8FF;
+    --font-family: 'Fredoka One', cursive;
+    --font-size-base: 18px;
+}
+
+.children-theme .hero {
+    background: linear-gradient(135deg, #EF4444 0%, #F97316 50%, #22C55E 100%);
+}
+
+.children-theme .hero-title {
+    font-family: 'Fredoka One', cursive;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.children-theme .btn-primary {
+    background: linear-gradient(45deg, #EF4444, #F97316);
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.children-theme .btn-primary:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.children-theme .feature-card {
+    border-radius: 20px;
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(45deg, #EF4444, #F97316, #22C55E) border-box;
+}
+
+.children-theme .feature-card:hover {
+    transform: translateY(-8px) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.children-theme .floating-card {
+    border-radius: 20px;
+    border: 3px solid #F97316;
+    background: linear-gradient(135deg, #FEF7FF 0%, #FFFFFF 100%);
+}
+
+.children-theme .lesson-card {
+    border-radius: 20px;
+    border: 2px solid #F3E8FF;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FEF7FF 100%);
+}
+
+.children-theme .lesson-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: #EF4444;
+}
+
+/* Teens Theme (13-17 years) */
+.teens-theme {
+    --primary-color: #8B5CF6;
+    --secondary-color: #06B6D4;
+    --accent-color: #F59E0B;
+    --text-color: #1F2937;
+    --bg-color: #FAFAFA;
+    --card-bg: #FFFFFF;
+    --border-color: #E5E7EB;
+    --font-family: 'Inter', sans-serif;
+    --font-size-base: 16px;
+}
+
+.teens-theme .hero {
+    background: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%);
+}
+
+.teens-theme .btn-primary {
+    background: linear-gradient(45deg, #8B5CF6, #06B6D4);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.teens-theme .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+.teens-theme .feature-card {
+    border-radius: 16px;
+    border: 2px solid #F3F4F6;
+    transition: all 0.3s ease;
+}
+
+.teens-theme .feature-card:hover {
+    transform: translateY(-6px);
+    border-color: #8B5CF6;
+    box-shadow: 0 12px 25px rgba(139, 92, 246, 0.15);
+}
+
+.teens-theme .floating-card {
+    border-radius: 16px;
+    border: 2px solid #8B5CF6;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+}
+
+.teens-theme .lesson-card {
+    border-radius: 16px;
+    border: 1px solid #E5E7EB;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
+}
+
+.teens-theme .lesson-card:hover {
+    transform: translateY(-3px);
+    border-color: #8B5CF6;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Young Adults Theme (18-25 years) */
+.young-adults-theme {
+    --primary-color: #3B82F6;
+    --secondary-color: #10B981;
+    --accent-color: #F59E0B;
+    --text-color: #1F2937;
+    --bg-color: #FFFFFF;
+    --card-bg: #F8FAFC;
+    --border-color: #E2E8F0;
+    --font-family: 'Inter', sans-serif;
+    --font-size-base: 16px;
+}
+
+.young-adults-theme .hero {
+    background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
+}
+
+.young-adults-theme .btn-primary {
+    background: linear-gradient(45deg, #3B82F6, #10B981);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.young-adults-theme .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+.young-adults-theme .feature-card {
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+}
+
+.young-adults-theme .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: #3B82F6;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1);
+}
+
+.young-adults-theme .floating-card {
+    border-radius: 12px;
+    border: 1px solid #3B82F6;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 100%);
+}
+
+.young-adults-theme .lesson-card {
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+}
+
+.young-adults-theme .lesson-card:hover {
+    transform: translateY(-2px);
+    border-color: #3B82F6;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.08);
+}
+
+/* Adults Theme (26+ years) */
+.adults-theme {
+    --primary-color: #1F2937;
+    --secondary-color: #059669;
+    --accent-color: #D97706;
+    --text-color: #1F2937;
+    --bg-color: #FFFFFF;
+    --card-bg: #F9FAFB;
+    --border-color: #D1D5DB;
+    --font-family: 'Inter', sans-serif;
+    --font-size-base: 16px;
+}
+
+.adults-theme .hero {
+    background: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+}
+
+.adults-theme .btn-primary {
+    background: linear-gradient(45deg, #1F2937, #059669);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(31, 41, 55, 0.3);
+}
+
+.adults-theme .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(31, 41, 55, 0.4);
+}
+
+.adults-theme .feature-card {
+    border-radius: 8px;
+    border: 1px solid #D1D5DB;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
+}
+
+.adults-theme .feature-card:hover {
+    transform: translateY(-2px);
+    border-color: #1F2937;
+    box-shadow: 0 4px 12px rgba(31, 41, 55, 0.1);
+}
+
+.adults-theme .floating-card {
+    border-radius: 8px;
+    border: 1px solid #1F2937;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F3F4F6 100%);
+}
+
+.adults-theme .lesson-card {
+    border-radius: 8px;
+    border: 1px solid #D1D5DB;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
+}
+
+.adults-theme .lesson-card:hover {
+    transform: translateY(-1px);
+    border-color: #1F2937;
+    box-shadow: 0 3px 8px rgba(31, 41, 55, 0.08);
+}
+
+/* High Contrast Theme */
+.high-contrast {
+    --primary-color: #000000;
+    --secondary-color: #000000;
+    --accent-color: #000000;
+    --text-color: #000000;
+    --bg-color: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --border-color: #000000;
+    --font-size-base: 18px;
+}
+
+.high-contrast .hero {
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    color: #FFFFFF;
+}
+
+.high-contrast .btn-primary {
+    background: #000000;
+    color: #FFFFFF;
+    border: 2px solid #000000;
+}
+
+.high-contrast .btn-outline {
+    background: #FFFFFF;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+.high-contrast .feature-card,
+.high-contrast .lesson-card,
+.high-contrast .floating-card {
+    border: 2px solid #000000;
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.high-contrast .nav-link,
+.high-contrast .dropdown-item {
+    color: #000000;
+    border: 1px solid transparent;
+}
+
+.high-contrast .nav-link:hover,
+.high-contrast .dropdown-item:hover {
+    background: #000000;
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+/* Large Font Theme */
+.large-font {
+    --font-size-base: 20px;
+}
+
+.large-font h1 { font-size: 3rem; }
+.large-font h2 { font-size: 2.5rem; }
+.large-font h3 { font-size: 2rem; }
+.large-font h4 { font-size: 1.5rem; }
+.large-font h5 { font-size: 1.25rem; }
+.large-font h6 { font-size: 1.125rem; }
+
+.large-font .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.large-font .nav-link {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Small Font Theme */
+.small-font {
+    --font-size-base: 14px;
+}
+
+.small-font h1 { font-size: 2rem; }
+.small-font h2 { font-size: 1.75rem; }
+.small-font h3 { font-size: 1.5rem; }
+.small-font h4 { font-size: 1.25rem; }
+.small-font h5 { font-size: 1.125rem; }
+.small-font h6 { font-size: 1rem; }
+
+.small-font .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+.small-font .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Accessibility Enhancements */
+.high-contrast .skip-link {
+    background: #000000;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+}
+
+.high-contrast .flash-message {
+    border: 2px solid #000000;
+}
+
+.high-contrast .search-input,
+.high-contrast .search-button {
+    border: 2px solid #000000;
+}
+
+.high-contrast .search-input {
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.high-contrast .search-button {
+    background: #000000;
+    color: #FFFFFF;
+}
+
+/* Focus Indicators for Accessibility */
+.high-contrast *:focus {
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+}
+
+.children-theme *:focus {
+    outline: 3px solid #F97316;
+    outline-offset: 2px;
+}
+
+.teens-theme *:focus {
+    outline: 3px solid #8B5CF6;
+    outline-offset: 2px;
+}
+
+.young-adults-theme *:focus {
+    outline: 3px solid #3B82F6;
+    outline-offset: 2px;
+}
+
+.adults-theme *:focus {
+    outline: 3px solid #1F2937;
+    outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .floating-card {
+        animation: none;
+    }
+    
+    .feature-card:hover,
+    .lesson-card:hover,
+    .btn:hover {
+        transform: none;
+    }
+    
+    * {
+        transition: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .footer,
+    .hero,
+    .cta-section {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 0;
+    }
+    
+    .feature-card,
+    .lesson-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000000;
+    }
+    
+    * {
+        color: #000000 !important;
+        background: #FFFFFF !important;
+    }
+}

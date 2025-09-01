@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}View Content - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="content-header">
+        <h1>Processed Content</h1>
+        <p>AI-generated learning materials from your content</p>
+    </div>
+
+    <div class="content-overview">
+        <div class="content-card">
+            <h3>Original Content</h3>
+            <div class="content-preview">
+                <p>{{ content.raw_content[:500] }}{% if content.raw_content|length > 500 %}...{% endif %}</p>
+            </div>
+            <div class="content-meta">
+                <span class="meta-item">Subject: {{ content.document.subject }}</span>
+                <span class="meta-item">Length: {{ content.raw_content|length }} characters</span>
+                <span class="meta-item">Processed: {{ content.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-generated-content">
+        <div class="ai-section">
+            <h3>AI-Generated Summary</h3>
+            <div class="summary-content">
+                {% if content.ai_generated_summary %}
+                    <p>{{ content.ai_generated_summary }}</p>
+                {% else %}
+                    <p class="no-content">No summary generated yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ai-section">
+            <h3>Key Concepts</h3>
+            <div class="concepts-content">
+                {% if content.key_concepts %}
+                    <p>{{ content.key_concepts }}</p>
+                {% else %}
+                    <p class="no-content">No key concepts identified yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ai-section">
+            <h3>AI-Generated Notes</h3>
+            <div class="notes-content">
+                {% if content.ai_generated_notes %}
+                    <p>{{ content.ai_generated_notes }}</p>
+                {% else %}
+                    <p class="no-content">No notes generated yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="learning-materials">
+        <h3>Learning Materials</h3>
+        
+        <div class="materials-grid">
+            <div class="material-card">
+                <h4>Flashcards</h4>
+                <div class="flashcards-list">
+                    {% if content.flashcards.count() > 0 %}
+                        {% for flashcard in content.flashcards %}
+                        <div class="flashcard-item">
+                            <div class="flashcard-term">{{ flashcard.term }}</div>
+                            <div class="flashcard-definition">{{ flashcard.definition }}</div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-content">No flashcards generated yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="material-card">
+                <h4>Quiz Questions</h4>
+                <div class="questions-list">
+                    {% if content.questions.count() > 0 %}
+                        {% for question in content.questions %}
+                        <div class="question-item">
+                            <div class="question-text">{{ question.question_text }}</div>
+                            <div class="question-answer">{{ question.answer_text }}</div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-content">No questions generated yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-actions">
+        <a href="{{ url_for('ai_services.upload_document') }}" class="btn btn-primary">Process More Content</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-outline">Back to Home</a>
+    </div>
+</div>
+
+<style>
+.content-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-radius: 16px;
+}
+
+.content-header h1 {
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.content-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.content-overview {
+    margin-bottom: 3rem;
+}
+
+.content-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.content-card h3 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.content-preview {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #10b981;
+}
+
+.content-preview p {
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.content-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.ai-generated-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.ai-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.ai-section h3 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.summary-content,
+.concepts-content,
+.notes-content {
+    color: #374151;
+    line-height: 1.6;
+}
+
+.no-content {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.learning-materials {
+    margin-bottom: 3rem;
+}
+
+.learning-materials h3 {
+    color: #1e293b;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.material-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.material-card h4 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.flashcard-item,
+.question-item {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #10b981;
+}
+
+.flashcard-term,
+.question-text {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.flashcard-definition,
+.question-answer {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.content-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #10b981;
+    border: 2px solid #10b981;
+}
+
+.btn-outline:hover {
+    background: #10b981;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .ai-generated-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .materials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .content-meta {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,452 @@
+{% extends "base.html" %}
+
+{% block title %}Accessibility Settings - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="accessibility-header">
+        <h1>Accessibility Settings</h1>
+        <p>Configure accessibility features to enhance your learning experience</p>
+    </div>
+
+    <div class="accessibility-content">
+        <div class="settings-section">
+            <h2>Visual Accessibility</h2>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>High Contrast Mode</h3>
+                    <p>Increase contrast for better readability</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="highContrast" onchange="updateAccessibility()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Focus Indicators</h3>
+                    <p>Show clear focus indicators for keyboard navigation</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="focusIndicators" onchange="updateAccessibility()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Font Size</h3>
+                    <p>Adjust text size for better readability</p>
+                </div>
+                <div class="setting-control">
+                    <select id="fontSize" onchange="updateAccessibility()">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                        <option value="extra-large">Extra Large</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Motion & Animation</h2>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Reduce Motion</h3>
+                    <p>Minimize animations and transitions</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="reducedMotion" onchange="updateAccessibility()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Screen Reader Support</h2>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Screen Reader Mode</h3>
+                    <p>Optimize content for screen readers</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="screenReaderSupport" onchange="updateAccessibility()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Alternative Text</h3>
+                    <p>Always show alternative text for images</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="altText" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Keyboard Navigation</h2>
+            
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Skip Links</h3>
+                    <p>Show skip navigation links</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="skipLinks" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h3>Tab Order</h3>
+                    <p>Logical tab order for keyboard navigation</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="tabOrder" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accessibility-actions">
+        <button type="button" class="btn btn-secondary" onclick="resetAccessibility()">Reset to Defaults</button>
+        <button type="button" class="btn btn-primary" onclick="saveAccessibility()">Save Settings</button>
+    </div>
+
+    <div class="accessibility-info">
+        <h3>Accessibility Features</h3>
+        <ul>
+            <li>✅ WCAG 2.1 AA compliant</li>
+            <li>✅ Screen reader compatible</li>
+            <li>✅ Keyboard navigation support</li>
+            <li>✅ High contrast mode</li>
+            <li>✅ Adjustable font sizes</li>
+            <li>✅ Reduced motion options</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.accessibility-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.accessibility-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.accessibility-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.accessibility-content {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.settings-section h2 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-info h3 {
+    font-size: 1.1rem;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.setting-info p {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4f46e5;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+input:disabled + .slider {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+}
+
+select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-size: 1rem;
+}
+
+.accessibility-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+}
+
+.accessibility-info {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid #e2e8f0;
+}
+
+.accessibility-info h3 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.accessibility-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.accessibility-info li {
+    padding: 0.5rem 0;
+    color: #374151;
+}
+
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .accessibility-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+
+<script>
+// Load current accessibility settings
+document.addEventListener('DOMContentLoaded', function() {
+    loadAccessibilitySettings();
+});
+
+function loadAccessibilitySettings() {
+    fetch('/settings/api/get-preferences')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const prefs = data.preferences;
+                document.getElementById('highContrast').checked = prefs.high_contrast || false;
+                document.getElementById('focusIndicators').checked = prefs.focus_indicators !== false;
+                document.getElementById('reducedMotion').checked = prefs.reduced_motion || false;
+                document.getElementById('screenReaderSupport').checked = prefs.screen_reader_support || false;
+                document.getElementById('fontSize').value = prefs.font_size || 'medium';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading settings:', error);
+        });
+}
+
+function updateAccessibility() {
+    const settings = {
+        high_contrast: document.getElementById('highContrast').checked,
+        focus_indicators: document.getElementById('focusIndicators').checked,
+        reduced_motion: document.getElementById('reducedMotion').checked,
+        screen_reader_support: document.getElementById('screenReaderSupport').checked,
+        font_size: document.getElementById('fontSize').value
+    };
+
+    // Apply settings immediately for preview
+    applyAccessibilitySettings(settings);
+}
+
+function applyAccessibilitySettings(settings) {
+    // Apply high contrast
+    if (settings.high_contrast) {
+        document.body.classList.add('high-contrast');
+    } else {
+        document.body.classList.remove('high-contrast');
+    }
+
+    // Apply reduced motion
+    if (settings.reduced_motion) {
+        document.body.classList.add('reduced-motion');
+    } else {
+        document.body.classList.remove('reduced-motion');
+    }
+
+    // Apply font size
+    document.body.style.fontSize = getFontSize(settings.font_size);
+}
+
+function getFontSize(size) {
+    const sizes = {
+        'small': '14px',
+        'medium': '16px',
+        'large': '18px',
+        'extra-large': '20px'
+    };
+    return sizes[size] || '16px';
+}
+
+function saveAccessibility() {
+    const settings = {
+        high_contrast: document.getElementById('highContrast').checked,
+        focus_indicators: document.getElementById('focusIndicators').checked,
+        reduced_motion: document.getElementById('reducedMotion').checked,
+        screen_reader_support: document.getElementById('screenReaderSupport').checked,
+        font_size: document.getElementById('fontSize').value
+    };
+
+    fetch('/settings/api/update-accessibility', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Accessibility settings saved successfully!');
+        } else {
+            alert('Error saving settings: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error saving settings');
+    });
+}
+
+function resetAccessibility() {
+    if (confirm('Are you sure you want to reset accessibility settings to default?')) {
+        document.getElementById('highContrast').checked = false;
+        document.getElementById('focusIndicators').checked = true;
+        document.getElementById('reducedMotion').checked = false;
+        document.getElementById('screenReaderSupport').checked = false;
+        document.getElementById('fontSize').value = 'medium';
+        
+        updateAccessibility();
+    }
+}
+</script>
+{% endblock %}

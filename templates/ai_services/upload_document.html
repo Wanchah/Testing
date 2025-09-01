@@ -1,0 +1,766 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="upload-header">
+        <h1>📄 Upload Document for AI Processing</h1>
+        <p>Upload your educational documents and let AI generate notes, flashcards, and quizzes automatically.</p>
+    </div>
+
+    <div class="upload-card">
+        <div class="supported-formats">
+            <h3>Supported Formats</h3>
+            <div class="format-icons">
+                <div class="format-item">
+                    <span class="format-icon">📄</span>
+                    <span>PDF</span>
+                </div>
+                <div class="format-item">
+                    <span class="format-icon">📝</span>
+                    <span>DOCX</span>
+                </div>
+                <div class="format-item">
+                    <span class="format-icon">📃</span>
+                    <span>TXT</span>
+                </div>
+                <div class="format-item">
+                    <span class="format-icon">📊</span>
+                    <span>PPT/PPTX</span>
+                </div>
+                <div class="format-item">
+                    <span class="format-icon">📖</span>
+                    <span>Markdown</span>
+                </div>
+                <div class="format-item">
+                    <span class="format-icon">🎥</span>
+                    <span>YouTube</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-tabs">
+            <button type="button" class="tab-button active" data-tab="document">📄 Document Upload</button>
+            <button type="button" class="tab-button" data-tab="youtube">🎥 YouTube Video</button>
+        </div>
+
+        <div class="tab-content active" id="document-tab">
+            <form method="POST" enctype="multipart/form-data" class="upload-form" id="uploadForm">
+                <div class="form-group">
+                    <label for="document">Select Document *</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="document" name="document" accept=".pdf,.docx,.txt,.ppt,.pptx,.md" required>
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📁</div>
+                            <p>Click to select or drag and drop your document</p>
+                            <small>Maximum file size: 50MB</small>
+                        </div>
+                    </div>
+                    <div id="fileInfo" class="file-info" style="display: none;">
+                        <span id="fileName"></span>
+                        <span id="fileSize"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject/Category *</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language Arts</option>
+                        <option value="geography">Geography</option>
+                        <option value="arts">Arts & Music</option>
+                        <option value="computer_science">Computer Science</option>
+                        <option value="philosophy">Philosophy</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="economics">Economics</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description (Optional)</label>
+                    <textarea id="description" name="description" rows="3" 
+                              placeholder="Brief description of the document content..."></textarea>
+                </div>
+
+                <div class="ai-features">
+                    <h3>AI Features to Generate</h3>
+                    <div class="feature-checkboxes">
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_notes" checked>
+                            <span class="checkmark"></span>
+                            📝 Smart Notes
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_summary" checked>
+                            <span class="checkmark"></span>
+                            📋 Summary
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_flashcards" checked>
+                            <span class="checkmark"></span>
+                            🧠 Flashcards
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_questions" checked>
+                            <span class="checkmark"></span>
+                            ❓ Quiz Questions
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="upload-button" id="uploadButton">
+                    <span class="button-text">🚀 Process Document</span>
+                    <span class="loading-text" style="display: none;">⏳ Processing...</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="youtube-tab">
+            <form method="POST" action="{{ url_for('ai_services.process_youtube') }}" class="upload-form" id="youtubeForm">
+                <div class="form-group">
+                    <label for="youtube_url">YouTube Video URL *</label>
+                    <input type="url" id="youtube_url" name="youtube_url" 
+                           placeholder="https://www.youtube.com/watch?v=..." required>
+                    <small>Paste a YouTube video link to extract content and generate learning materials</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="youtube_subject">Subject/Category *</label>
+                    <select id="youtube_subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language Arts</option>
+                        <option value="geography">Geography</option>
+                        <option value="arts">Arts & Music</option>
+                        <option value="computer_science">Computer Science</option>
+                        <option value="philosophy">Philosophy</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="economics">Economics</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="youtube_description">Description (Optional)</label>
+                    <textarea id="youtube_description" name="description" rows="3" 
+                              placeholder="Brief description of what you want to learn from this video..."></textarea>
+                </div>
+
+                <div class="ai-features">
+                    <h3>AI Features to Generate</h3>
+                    <div class="feature-checkboxes">
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_notes" checked>
+                            <span class="checkmark"></span>
+                            📝 Smart Notes
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_summary" checked>
+                            <span class="checkmark"></span>
+                            📋 Summary
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_flashcards" checked>
+                            <span class="checkmark"></span>
+                            🧠 Flashcards
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" name="generate_questions" checked>
+                            <span class="checkmark"></span>
+                            ❓ Quiz Questions
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="upload-button" id="youtubeButton">
+                    <span class="button-text">🎥 Process YouTube Video</span>
+                    <span class="loading-text" style="display: none;">⏳ Processing...</span>
+                </button>
+            </form>
+
+    </div>
+
+    <div class="upload-info">
+        <h3>How It Works</h3>
+        <div class="info-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Upload Document</h4>
+                    <p>Select your educational document from your device</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>AI Processing</h4>
+                    <p>Our AI extracts text and analyzes the content</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Generate Materials</h4>
+                    <p>AI creates notes, flashcards, and quiz questions</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Study & Learn</h4>
+                    <p>Use the generated materials for effective learning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// File upload handling
+const fileInput = document.getElementById('document');
+const fileUploadArea = document.getElementById('fileUploadArea');
+const fileInfo = document.getElementById('fileInfo');
+const fileName = document.getElementById('fileName');
+const fileSize = document.getElementById('fileSize');
+const uploadForm = document.getElementById('uploadForm');
+const uploadBtn = document.getElementById('uploadBtn');
+const btnText = document.querySelector('.btn-text');
+const btnLoading = document.querySelector('.btn-loading');
+
+// Drag and drop functionality
+fileUploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.add('dragover');
+});
+
+fileUploadArea.addEventListener('dragleave', () => {
+    fileUploadArea.classList.remove('dragover');
+});
+
+fileUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.remove('dragover');
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        fileInput.files = files;
+        handleFileSelect(files[0]);
+    }
+});
+
+// File selection handling
+fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        handleFileSelect(e.target.files[0]);
+    }
+});
+
+function handleFileSelect(file) {
+    // Validate file size (50MB limit)
+    if (file.size > 50 * 1024 * 1024) {
+        alert('File size must be less than 50MB');
+        fileInput.value = '';
+        return;
+    }
+    
+    // Validate file type
+    const allowedTypes = ['pdf', 'docx', 'txt', 'ppt', 'pptx', 'md'];
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+    
+    if (!allowedTypes.includes(fileExtension)) {
+        alert('Please select a supported file type');
+        fileInput.value = '';
+        return;
+    }
+    
+    // Display file info
+    fileName.textContent = file.name;
+    fileSize.textContent = formatFileSize(file.size);
+    fileInfo.style.display = 'flex';
+    
+    // Update upload area
+    fileUploadArea.classList.add('file-selected');
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Form submission
+uploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!fileInput.files.length) {
+        alert('Please select a file to upload');
+        return;
+    }
+    
+    // Show loading state
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+    uploadBtn.disabled = true;
+    
+    // Submit form
+    this.submit();
+});
+
+// Click to upload
+fileUploadArea.addEventListener('click', () => {
+    fileInput.click();
+});
+</script>
+
+<style>
+.upload-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.upload-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+    color: #374151;
+    background: #f9fafb;
+}
+
+.tab-button.active {
+    color: #4f46e5;
+    border-bottom-color: #4f46e5;
+    background: #f0f9ff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.upload-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.upload-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.upload-header p {
+    color: #6b7280;
+    font-size: 1.125rem;
+}
+
+.upload-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.supported-formats {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.supported-formats h3 {
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.format-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.format-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+}
+
+.format-icon {
+    font-size: 2rem;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.file-upload-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.file-upload-area:hover {
+    border-color: #4f46e5;
+    background: #f8fafc;
+}
+
+.file-upload-area.dragover {
+    border-color: #4f46e5;
+    background: #f0f9ff;
+}
+
+.file-upload-area.file-selected {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.file-upload-area input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.upload-placeholder {
+    pointer-events: none;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.upload-placeholder p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.upload-placeholder small {
+    color: #9ca3af;
+}
+
+.file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f3f4f6;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.file-info span {
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+select, textarea {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+select:focus, textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.ai-features {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.ai-features h3 {
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.feature-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.feature-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.feature-checkbox:hover {
+    background: #e5e7eb;
+}
+
+.feature-checkbox input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.upload-info {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+
+.upload-info h3 {
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 2rem;
+}
+
+.info-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.step-number {
+    background: #4f46e5;
+    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .upload-container {
+        padding: 1rem;
+    }
+    
+    .upload-card {
+        padding: 1.5rem;
+    }
+    
+    .format-icons {
+        gap: 1rem;
+    }
+    
+    .feature-checkboxes {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+.upload-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+    color: #374151;
+    background: #f9fafb;
+}
+
+.tab-button.active {
+    color: #4f46e5;
+    border-bottom-color: #4f46e5;
+    background: #f0f9ff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+</style>
+
+<script>
+// Tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            document.getElementById(targetTab + '-tab').classList.add('active');
+        });
+    });
+    
+    // File upload functionality
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileInput = document.getElementById('document');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    
+    if (fileUploadArea && fileInput) {
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.style.display = 'flex';
+                fileUploadArea.classList.add('file-selected');
+            }
+        });
+        
+        // Drag and drop functionality
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+    
+    // Form submission handling
+    const uploadForm = document.getElementById('uploadForm');
+    const uploadButton = document.getElementById('uploadButton');
+    
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', function(e) {
+            const buttonText = uploadButton.querySelector('.button-text');
+            const loadingText = uploadButton.querySelector('.loading-text');
+            
+            buttonText.style.display = 'none';
+            loadingText.style.display = 'inline';
+            uploadButton.disabled = true;
+        });
+    }
+    
+    // YouTube form submission handling
+    const youtubeForm = document.getElementById('youtubeForm');
+    const youtubeButton = document.getElementById('youtubeButton');
+    
+    if (youtubeForm) {
+        youtubeForm.addEventListener('submit', function(e) {
+            const buttonText = youtubeButton.querySelector('.button-text');
+            const loadingText = youtubeButton.querySelector('.loading-text');
+            
+            buttonText.style.display = 'none';
+            loadingText.style.display = 'inline';
+            youtubeButton.disabled = true;
+        });
+    }
+});
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+</script>
+{% endblock %}

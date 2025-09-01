@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Get in touch with our team for support, feedback, or collaboration</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>We're here to help and would love to hear from you. Whether you have a question, need support, or want to provide feedback, our team is ready to assist.</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="method-icon">📧</div>
+                    <h3>Email Support</h3>
+                    <p>For general inquiries and support</p>
+                    <a href="mailto:support@edumorph.com" class="contact-link">support@edumorph.com</a>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">💬</div>
+                    <h3>Live Chat</h3>
+                    <p>Get instant help during business hours</p>
+                    <button class="chat-button" onclick="openChat()">Start Chat</button>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">📱</div>
+                    <h3>Phone Support</h3>
+                    <p>Speak directly with our support team</p>
+                    <a href="tel:+1-555-0123" class="contact-link">+1 (555) 012-3456</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-section">
+            <h2>Send us a Message</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select a subject</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="billing">Billing Question</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" rows="6" placeholder="Please describe your inquiry or issue in detail..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="newsletter" id="newsletter">
+                        <span class="checkmark"></span>
+                        Subscribe to our newsletter for updates and educational content
+                    </label>
+                </div>
+                
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>How do I get started with EduMorph?</h3>
+                <p>Simply create an account, choose your age group and interests, and start exploring our AI-powered learning materials. You can upload documents, process YouTube videos, or use our AI chat for personalized learning.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What file formats are supported?</h3>
+                <p>We support PDF, DOCX, TXT, PPT, PPTX, and MD files. We also support YouTube video links for content processing and note generation.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Is my data secure?</h3>
+                <p>Yes, we take data security seriously. All uploaded content is encrypted and stored securely. We never share your personal information with third parties.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can I use EduMorph offline?</h3>
+                <p>Currently, EduMorph requires an internet connection for AI processing and content generation. However, you can download generated materials for offline study.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How accurate is the AI-generated content?</h3>
+                <p>Our AI models are trained on high-quality educational content and provide accurate summaries, notes, and study materials. However, we recommend reviewing generated content for your specific learning needs.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What age groups is EduMorph designed for?</h3>
+                <p>EduMorph is designed for learners of all ages: Children (5-12), Teens (13-17), Young Adults (18-25), and Adults (26+). Content is automatically adapted to be age-appropriate.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="support-section">
+        <h2>Additional Support Resources</h2>
+        <div class="support-grid">
+            <div class="support-card">
+                <div class="support-icon">📖</div>
+                <h3>Help Center</h3>
+                <p>Comprehensive guides and tutorials</p>
+                <a href="#" class="support-link">Visit Help Center</a>
+            </div>
+            
+            <div class="support-card">
+                <div class="support-icon">🎥</div>
+                <h3>Video Tutorials</h3>
+                <p>Step-by-step video guides</p>
+                <a href="#" class="support-link">Watch Tutorials</a>
+            </div>
+            
+            <div class="support-card">
+                <div class="support-icon">👥</div>
+                <h3>Community Forum</h3>
+                <p>Connect with other learners</p>
+                <a href="#" class="support-link">Join Community</a>
+            </div>
+            
+            <div class="support-card">
+                <div class="support-icon">📊</div>
+                <h3>Status Page</h3>
+                <p>Check system status and updates</p>
+                <a href="#" class="support-link">View Status</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.contact-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 16px;
+}
+
+.contact-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.contact-header p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.contact-info h2,
+.contact-form-section h2 {
+    color: #1f2937;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-info p {
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-method {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.method-icon {
+    font-size: 2rem;
+    min-width: 60px;
+}
+
+.contact-method h3 {
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.contact-method p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.contact-link {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+.chat-button {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.chat-button:hover {
+    background: #059669;
+}
+
+.contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin-top: 0.25rem;
+}
+
+.submit-button {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.submit-button:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.faq-section {
+    margin-bottom: 4rem;
+}
+
+.faq-section h2 {
+    color: #1f2937;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.faq-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.faq-item h3 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.faq-item p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.support-section {
+    margin-bottom: 2rem;
+}
+
+.support-section h2 {
+    color: #1f2937;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.support-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+}
+
+.support-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.support-card h3 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.support-card p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.support-link {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 2px solid #10b981;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.support-link:hover {
+    background: #10b981;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-header h1 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<script>
+function openChat() {
+    alert('Live chat feature coming soon! For now, please use email or phone support.');
+}
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Show success message
+    alert('Thank you for your message! We will get back to you soon.');
+    
+    // Reset form
+    this.reset();
+});
+</script>
+{% endblock %}

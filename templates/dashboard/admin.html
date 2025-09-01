@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="dashboard-container">
+    <h2 class="dashboard-title">⚙️ Admin Dashboard</h2>
+    <div class="dashboard-welcome">
+        <p>Welcome, <strong>{{ current_user.username }}</strong>!</p>
+        <p>System overview and administrative controls for EduMorph platform.</p>
+    </div>
+    
+    <div class="system-stats">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+                <h3>Total Users</h3>
+                <p class="stat-number">{{ total_users|default(1247) }}</p>
+                <span class="stat-change positive">+12% this month</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-content">
+                <h3>Total Lessons</h3>
+                <p class="stat-number">{{ total_lessons|default(456) }}</p>
+                <span class="stat-change positive">+8% this month</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <h3>Active Sessions</h3>
+                <p class="stat-number">{{ active_sessions|default(89) }}</p>
+                <span class="stat-change neutral">Current</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <h3>System Health</h3>
+                <p class="stat-number">{{ system_health|default(98) }}%</p>
+                <span class="stat-change positive">Excellent</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-cards">
+        <div class="card user-management-card">
+            <h3>User Management</h3>
+            <div class="user-stats">
+                <div class="user-stat">
+                    <span class="stat-label">Students</span>
+                    <span class="stat-value">{{ student_count|default(892) }}</span>
+                </div>
+                <div class="user-stat">
+                    <span class="stat-label">Teachers</span>
+                    <span class="stat-value">{{ teacher_count|default(156) }}</span>
+                </div>
+                <div class="user-stat">
+                    <span class="stat-label">Parents</span>
+                    <span class="stat-value">{{ parent_count|default(199) }}</span>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <a href="/admin/users" class="btn btn-primary">Manage Users</a>
+                <a href="/admin/roles" class="btn btn-secondary">Role Management</a>
+            </div>
+        </div>
+        
+        <div class="card system-monitoring-card">
+            <h3>System Monitoring</h3>
+            <div class="monitoring-metrics">
+                <div class="metric">
+                    <span class="metric-label">CPU Usage</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 45%;"></div>
+                    </div>
+                    <span class="metric-value">45%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Memory Usage</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 62%;"></div>
+                    </div>
+                    <span class="metric-value">62%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Database Connections</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 28%;"></div>
+                    </div>
+                    <span class="metric-value">28%</span>
+                </div>
+            </div>
+            <a href="/admin/monitoring" class="btn btn-secondary">Detailed Monitoring</a>
+        </div>
+        
+        <div class="card content-management-card">
+            <h3>Content Management</h3>
+            <div class="content-stats">
+                <div class="content-stat">
+                    <span class="stat-label">Published Lessons</span>
+                    <span class="stat-value">{{ published_lessons|default(423) }}</span>
+                </div>
+                <div class="content-stat">
+                    <span class="stat-label">Pending Review</span>
+                    <span class="stat-value">{{ pending_review|default(33) }}</span>
+                </div>
+                <div class="content-stat">
+                    <span class="stat-label">Total Storage</span>
+                    <span class="stat-value">{{ total_storage|default('2.4 GB') }}</span>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <a href="/admin/content" class="btn btn-primary">Manage Content</a>
+                <a href="/admin/reviews" class="btn btn-secondary">Review Queue</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="/admin/backup" class="btn btn-secondary">Create Backup</a>
+            <a href="/admin/logs" class="btn btn-secondary">View Logs</a>
+            <a href="/admin/settings" class="btn btn-secondary">System Settings</a>
+            <a href="/admin/analytics" class="btn btn-primary">Analytics Report</a>
+        </div>
+    </div>
+    
+    <div class="recent-activity">
+        <h3>Recent System Activity</h3>
+        <div class="activity-list">
+            <div class="activity-item">
+                <span class="activity-time">2 minutes ago</span>
+                <p>New user registration: john.doe@email.com</p>
+            </div>
+            <div class="activity-item">
+                <span class="activity-time">15 minutes ago</span>
+                <p>Lesson "Advanced Calculus" published by teacher ms.smith</p>
+            </div>
+            <div class="activity-item">
+                <span class="activity-time">1 hour ago</span>
+                <p>System backup completed successfully</p>
+            </div>
+            <div class="activity-item">
+                <span class="activity-time">3 hours ago</span>
+                <p>Database maintenance completed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.dashboard-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+.dashboard-title { font-size: 2rem; margin-bottom: 1rem; color: #1f2937; }
+.dashboard-welcome { margin-bottom: 2rem; color: #6b7280; }
+.system-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.stat-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; display: flex; align-items: center; }
+.stat-icon { font-size: 2.5rem; margin-right: 1rem; }
+.stat-number { font-size: 1.75rem; font-weight: bold; color: #4f46e5; margin: 0; }
+.stat-change { font-size: 0.875rem; padding: 0.25rem 0.5rem; border-radius: 4px; }
+.stat-change.positive { background: #d1fae5; color: #065f46; }
+.stat-change.neutral { background: #e5e7eb; color: #374151; }
+.dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+.user-stats, .content-stats { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+.user-stat, .content-stat { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; }
+.monitoring-metrics { margin-bottom: 1rem; }
+.metric { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+.metric-label { min-width: 120px; font-size: 0.875rem; }
+.metric-bar { flex: 1; background: #e5e7eb; border-radius: 4px; height: 8px; }
+.metric-fill { background: #10b981; height: 100%; border-radius: 4px; }
+.metric-value { min-width: 40px; text-align: right; font-weight: 600; }
+.action-buttons { display: flex; gap: 0.75rem; margin-top: 1rem; }
+.quick-actions { text-align: center; margin-bottom: 2rem; }
+.quick-actions .action-buttons { justify-content: center; flex-wrap: wrap; }
+.recent-activity { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+.activity-item { padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+.activity-time { font-size: 0.875rem; color: #9ca3af; }
+</style>
+{% endblock %}

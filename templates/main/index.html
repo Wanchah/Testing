@@ -1,0 +1,719 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Transform Any Content Into Intelligent Learning Materials</h1>
+        <p class="hero-subtitle">Upload documents, YouTube videos, or text to instantly generate AI-powered notes, flashcards, and quizzes. Learn smarter with EduMorph.</p>
+        <div class="hero-buttons">
+            <a href="#upload-section" class="btn btn-primary btn-large">Start Learning Now</a>
+            <a href="#features" class="btn btn-outline btn-large">See How It Works</a>
+        </div>
+    </div>
+    
+    <div class="hero-visual">
+        <div class="floating-card card-1">
+            <div class="card-icon">📚</div>
+            <div class="card-text">PDF Notes</div>
+        </div>
+        <div class="floating-card card-2">
+            <div class="card-icon">🎥</div>
+            <div class="card-text">Video Summary</div>
+        </div>
+        <div class="floating-card card-3">
+            <div class="card-icon">🧠</div>
+            <div class="card-text">AI Flashcards</div>
+        </div>
+        <div class="floating-card card-4">
+            <div class="card-icon">❓</div>
+            <div class="card-text">Smart Quiz</div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Section -->
+<section id="upload-section" class="upload-section">
+    <div class="container">
+        <h2 class="section-title">Upload & Transform Your Content</h2>
+        <p class="section-subtitle">Support for multiple formats - let AI do the heavy lifting</p>
+        
+        <div class="upload-options">
+            <div class="upload-option">
+                <div class="upload-icon">📄</div>
+                <h3>Documents</h3>
+                <p>PDF, DOCX, TXT, PPT</p>
+                <button class="btn btn-primary" onclick="openUploadModal('document')">Upload Document</button>
+            </div>
+            
+            <div class="upload-option">
+                <div class="upload-icon">🎥</div>
+                <h3>YouTube Videos</h3>
+                <p>Paste video URL</p>
+                <button class="btn btn-primary" onclick="openUploadModal('youtube')">Add Video</button>
+            </div>
+            
+            <div class="upload-option">
+                <div class="upload-icon">✍️</div>
+                <h3>Text Input</h3>
+                <p>Type or paste content</p>
+                <button class="btn btn-primary" onclick="openUploadModal('text')">Start Writing</button>
+            </div>
+            
+            <div class="upload-option">
+                <div class="upload-icon">🔗</div>
+                <h3>Web Pages</h3>
+                <p>Extract from URLs</p>
+                <button class="btn btn-primary" onclick="openUploadModal('webpage')">Extract Content</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section">
+    <div class="container">
+        <h2 class="section-title">AI-Powered Learning Tools</h2>
+        <p class="section-subtitle">Transform your content into comprehensive learning materials</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Smart Note Generation</h3>
+                <p>AI automatically extracts key concepts, creates structured notes, and highlights important information from your content.</p>
+                <ul class="feature-list">
+                    <li>Key concept extraction</li>
+                    <li>Structured formatting</li>
+                    <li>Important point highlighting</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Intelligent Flashcards</h3>
+                <p>Generate contextually relevant flashcards with questions and answers based on your content.</p>
+                <ul class="feature-list">
+                    <li>Auto-generated Q&A pairs</li>
+                    <li>Spaced repetition system</li>
+                    <li>Difficulty adaptation</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">❓</div>
+                <h3>Adaptive Quizzes</h3>
+                <p>Create comprehensive quizzes with multiple question types that adapt to your learning progress.</p>
+                <ul class="feature-list">
+                    <li>Multiple choice questions</li>
+                    <li>Fill-in-the-blank</li>
+                    <li>True/false questions</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Learning Paths</h3>
+                <p>AI creates personalized learning sequences based on your content and learning goals.</p>
+                <ul class="feature-list">
+                    <li>Progressive difficulty</li>
+                    <li>Topic connections</li>
+                    <li>Goal-oriented structure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works-section">
+    <div class="container">
+        <h2 class="section-title">How EduMorph Works</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Upload Your Content</h3>
+                    <p>Upload documents, paste YouTube URLs, or input text directly into our platform.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>AI Processing</h3>
+                    <p>Our advanced AI analyzes your content, extracts key concepts, and identifies learning objectives.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Generate Materials</h3>
+                    <p>Instantly create notes, flashcards, quizzes, and learning paths tailored to your content.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Learn & Review</h3>
+                    <p>Study with interactive materials, track your progress, and reinforce learning through spaced repetition.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Transform Your Learning?</h2>
+        <p>Join thousands of students who are already using EduMorph to learn smarter and faster.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-large">Get Started Free</a>
+            <a href="#demo" class="btn btn-outline btn-large">Watch Demo</a>
+        </div>
+    </div>
+</section>
+
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Upload Content</h2>
+        
+        <div id="documentUpload" class="upload-form" style="display: none;">
+            <form action="{{ url_for('ai_services.upload_document') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="document">Select Document</label>
+                    <input type="file" id="document" name="document" accept=".pdf,.docx,.txt,.ppt,.pptx" required>
+                    <small>Supported formats: PDF, DOCX, TXT, PPT, PPTX (Max: 50MB)</small>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject/Category</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Learning Materials</button>
+            </form>
+        </div>
+        
+        <div id="youtubeUpload" class="upload-form" style="display: none;">
+            <form action="{{ url_for('ai_services.process_youtube') }}" method="POST">
+                <div class="form-group">
+                    <label for="youtube_url">YouTube Video URL</label>
+                    <input type="url" id="youtube_url" name="youtube_url" 
+                           placeholder="https://www.youtube.com/watch?v=..." required>
+                </div>
+                <div class="form-group">
+                    <label for="youtube_subject">Subject/Category</label>
+                    <select id="youtube_subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Video Summary</button>
+            </form>
+        </div>
+        
+        <div id="textUpload" class="upload-form" style="display: none;">
+            <form action="{{ url_for('ai_services.process_text') }}" method="POST">
+                <div class="form-group">
+                    <label for="text_content">Text Content</label>
+                    <textarea id="text_content" name="text_content" rows="8" 
+                              placeholder="Paste or type your content here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="text_subject">Subject/Category</label>
+                    <select id="text_subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Learning Materials</button>
+            </form>
+        </div>
+        
+        <div id="webpageUpload" class="upload-form" style="display: none;">
+            <form action="{{ url_for('ai_services.process_webpage') }}" method="POST">
+                <div class="form-group">
+                    <label for="webpage_url">Web Page URL</label>
+                    <input type="url" id="webpage_url" name="webpage_url" 
+                           placeholder="https://example.com/article" required>
+                </div>
+                <div class="form-group">
+                    <label for="webpage_subject">Subject/Category</label>
+                    <select id="webpage_subject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="literature">Literature</option>
+                        <option value="language">Language</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Extract & Process</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Upload modal functionality
+function openUploadModal(type) {
+    const modal = document.getElementById('uploadModal');
+    const modalTitle = document.getElementById('modalTitle');
+    
+    // Hide all upload forms
+    document.querySelectorAll('.upload-form').forEach(form => form.style.display = 'none');
+    
+    // Show appropriate form and set title
+    switch(type) {
+        case 'document':
+            document.getElementById('documentUpload').style.display = 'block';
+            modalTitle.textContent = 'Upload Document';
+            break;
+        case 'youtube':
+            document.getElementById('youtubeUpload').style.display = 'block';
+            modalTitle.textContent = 'Process YouTube Video';
+            break;
+        case 'text':
+            document.getElementById('textUpload').style.display = 'block';
+            modalTitle.textContent = 'Input Text Content';
+            break;
+        case 'webpage':
+            document.getElementById('webpageUpload').style.display = 'block';
+            modalTitle.textContent = 'Extract Web Page Content';
+            break;
+    }
+    
+    modal.style.display = 'block';
+}
+
+// Close modal
+document.querySelector('.close').onclick = function() {
+    document.getElementById('uploadModal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('uploadModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+
+<style>
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-visual {
+    position: relative;
+    height: 300px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.floating-card {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-align: center;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-card:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-card:nth-child(2) { top: 10%; right: 15%; animation-delay: 1.5s; }
+.floating-card:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 3s; }
+.floating-card:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 4.5s; }
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Upload Section */
+.upload-section {
+    padding: 5rem 2rem;
+    background: #f8fafc;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 3rem;
+}
+
+.upload-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.upload-option {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.upload-option:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.upload-option h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.upload-option p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+/* Features Section */
+.features-section {
+    padding: 5rem 2rem;
+    background: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: #f8fafc;
+    padding: 2rem;
+    border-radius: 1rem;
+    border-left: 4px solid #4f46e5;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.feature-card p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: 0.25rem 0;
+    color: #4b5563;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    padding: 5rem 2rem;
+    background: #f8fafc;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.step-number {
+    background: #4f46e5;
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.step-content p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.upload-form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-group small {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .upload-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .steps-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .floating-card {
+        position: relative;
+        margin-bottom: 1rem;
+        animation: none;
+    }
+    
+    .hero-visual {
+        height: auto;
+    }
+}
+</style>
+{% endblock %}

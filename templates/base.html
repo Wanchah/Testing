@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EduMorph - AI-Powered Educational Platform</title>
+	<link rel="stylesheet" href="/static/css/main.css">
+	<link rel="stylesheet" href="/static/css/accessibility.css">
+	<link rel="stylesheet" href="/static/css/themes.css">
+	<script src="/static/js/main.js"></script>
+	<script src="/static/js/accessibility.js"></script>
+	<script src="/static/js/search.js"></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<a href="/" class="logo">
+				<img src="/static/images/logo.svg" alt="EduMorph Logo" height="40">
+				EduMorph
+			</a>
+			<ul class="nav-links">
+				<li><a href="/lessons">Lessons</a></li>
+				<li><a href="/dashboard">Dashboard</a></li>
+				<li><a href="/ai/upload-document">AI Services</a></li>
+				<li><a href="/ai/web-search">Web Search</a></li>
+				<li><a href="/settings">Settings</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+			<form action="{{ url_for('main.search') }}" method="get" class="search-form">
+				<input type="text" name="q" placeholder="Search lessons, notes, flashcards..." aria-label="Search" value="{{ request.args.get('q', '') }}">
+				<button type="submit">🔍</button>
+			</form>
+			<div class="accessibility-controls">
+				<button id="high-contrast-toggle" aria-label="Toggle high contrast">🌓</button>
+				<button id="font-size-increase" aria-label="Increase font size">A+</button>
+				<button id="font-size-decrease" aria-label="Decrease font size">A-</button>
+				<button id="voice-control" aria-label="Voice control">🎤</button>
+			</div>
+		</nav>
+	</header>
+	<main>
+		{% block content %}{% endblock %}
+	</main>
+	<footer>
+		<div class="footer-content">
+			<p>Supporting SDG 4: Quality Education for All Ages</p>
+			<p>&copy; 2025 EduMorph. All rights reserved.</p>
+		</div>
+	</footer>
+</body>
+</html>

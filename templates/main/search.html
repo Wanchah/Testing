@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-container">
+    <div class="search-header">
+        <h1>Search Results</h1>
+        <p>Found {{ results|length }} results for "{{ query }}"</p>
+        
+        <!-- Search Filters -->
+        <div class="search-filters">
+            <form method="GET" action="{{ url_for('main.search') }}" class="filter-form">
+                <input type="hidden" name="q" value="{{ query }}">
+                
+                <div class="filter-group">
+                    <label for="type">Content Type:</label>
+                    <select name="type" id="type">
+                        <option value="all" {{ 'selected' if request.args.get('type') == 'all' }}>All Types</option>
+                        <option value="lesson" {{ 'selected' if request.args.get('type') == 'lesson' }}>Lessons</option>
+                        <option value="flashcard" {{ 'selected' if request.args.get('type') == 'flashcard' }}>Flashcards</option>
+                        <option value="question" {{ 'selected' if request.args.get('type') == 'question' }}>Questions</option>
+                        <option value="resource" {{ 'selected' if request.args.get('type') == 'resource' }}>Resources</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="subject">Subject:</label>
+                    <select name="subject" id="subject">
+                        <option value="all" {{ 'selected' if request.args.get('subject') == 'all' }}>All Subjects</option>
+                        <option value="mathematics" {{ 'selected' if request.args.get('subject') == 'mathematics' }}>Mathematics</option>
+                        <option value="science" {{ 'selected' if request.args.get('subject') == 'science' }}>Science</option>
+                        <option value="history" {{ 'selected' if request.args.get('subject') == 'history' }}>History</option>
+                        <option value="literature" {{ 'selected' if request.args.get('subject') == 'literature' }}>Literature</option>
+                        <option value="language" {{ 'selected' if request.args.get('subject') == 'language' }}>Language</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="age_group">Age Group:</label>
+                    <select name="age_group" id="age_group">
+                        <option value="all" {{ 'selected' if request.args.get('age_group') == 'all' }}>All Ages</option>
+                        <option value="children" {{ 'selected' if request.args.get('age_group') == 'children' }}>Children (5-12)</option>
+                        <option value="teens" {{ 'selected' if request.args.get('age_group') == 'teens' }}>Teens (13-17)</option>
+                        <option value="young_adults" {{ 'selected' if request.args.get('age_group') == 'young_adults' }}>Young Adults (18-25)</option>
+                        <option value="adults" {{ 'selected' if request.args.get('age_group') == 'adults' }}>Adults (25+)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="search-results">
+        {% if results %}
+            {% for result in results %}
+                <div class="result-card result-{{ result.type }}">
+                    <div class="result-icon">
+                        {% if result.type == 'lesson' %}📚
+                        {% elif result.type == 'flashcard' %}🧠
+                        {% elif result.type == 'question' %}❓
+                        {% elif result.type == 'resource' %}🔗
+                        {% endif %}
+                    </div>
+                    
+                    <div class="result-content">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                {% if result.type == 'lesson' %}
+                                    <a href="{{ result.url }}">{{ result.title }}</a>
+                                {% elif result.type == 'flashcard' %}
+                                    <a href="{{ result.url }}">{{ result.term }}</a>
+                                {% elif result.type == 'question' %}
+                                    <a href="{{ result.url }}">{{ result.question }}</a>
+                                {% elif result.type == 'resource' %}
+                                    <a href="{{ result.url }}" target="_blank">{{ result.title }}</a>
+                                {% endif %}
+                            </h3>
+                            <span class="result-type">{{ result.type|title }}</span>
+                        </div>
+                        
+                        <div class="result-description">
+                            {% if result.type == 'lesson' %}
+                                <p>{{ result.description }}</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">Subject: {{ result.subject }}</span>
+                                    <span class="meta-item">Topic: {{ result.topic }}</span>
+                                    <span class="meta-item">Age: {{ result.age_group }}</span>
+                                </div>
+                            {% elif result.type == 'flashcard' %}
+                                <p>{{ result.definition }}</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">From Lesson: {{ result.lesson_id }}</span>
+                                </div>
+                            {% elif result.type == 'question' %}
+                                <p>{{ result.question }}</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">From Lesson: {{ result.lesson_id }}</span>
+                                </div>
+                            {% elif result.type == 'resource' %}
+                                <p>External resource about {{ result.topic }}</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">Subject: {{ result.subject }}</span>
+                                    <span class="meta-item">Topic: {{ result.topic }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="result-actions">
+                            {% if result.type == 'lesson' %}
+                                <a href="{{ result.url }}" class="btn btn-primary">View Lesson</a>
+                            {% elif result.type == 'flashcard' %}
+                                <a href="{{ result.url }}" class="btn btn-secondary">Study Flashcard</a>
+                            {% elif result.type == 'question' %}
+                                <a href="{{ result.url }}" class="btn btn-secondary">View Question</a>
+                            {% elif result.type == 'resource' %}
+                                <a href="{{ result.url }}" target="_blank" class="btn btn-outline">Visit Resource</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>No results found</h3>
+                <p>Try adjusting your search terms or filters to find what you're looking for.</p>
+                <div class="no-results-suggestions">
+                    <h4>Suggestions:</h4>
+                    <ul>
+                        <li>Check your spelling</li>
+                        <li>Try more general keywords</li>
+                        <li>Remove some filters</li>
+                        <li>Browse our <a href="{{ url_for('lessons.index') }}">lesson library</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-header {
+    margin-bottom: 3rem;
+}
+
+.search-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.search-header p {
+    color: #6b7280;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.search-filters {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.filter-form {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.filter-group select {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    min-width: 150px;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.result-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    gap: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.result-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.result-content {
+    flex: 1;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.result-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.result-title a {
+    color: #1f2937;
+    text-decoration: none;
+}
+
+.result-title a:hover {
+    color: #4f46e5;
+}
+
+.result-type {
+    background: #e5e7eb;
+    color: #374151;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.result-description {
+    margin-bottom: 1.5rem;
+}
+
+.result-description p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.result-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.result-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.no-results h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.no-results-suggestions {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.no-results-suggestions h4 {
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.no-results-suggestions ul {
+    color: #6b7280;
+    padding-left: 1.5rem;
+}
+
+.no-results-suggestions a {
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.no-results-suggestions a:hover {
+    text-decoration: underline;
+}
+
+/* Result type specific styling */
+.result-lesson {
+    border-left: 4px solid #4f46e5;
+}
+
+.result-flashcard {
+    border-left: 4px solid #10b981;
+}
+
+.result-question {
+    border-left: 4px solid #f59e0b;
+}
+
+.result-resource {
+    border-left: 4px solid #8b5cf6;
+}
+
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .result-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .result-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+    
+    .result-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}

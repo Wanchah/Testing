@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="dashboard-container">
+    <h2 class="dashboard-title">👨‍🏫 Teacher Dashboard</h2>
+    <div class="dashboard-welcome">
+        <p>Welcome, <strong>{{ current_user.username }}</strong>!</p>
+        <p>Manage your classes, create lessons, and track student progress.</p>
+    </div>
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+                <h3>Total Students</h3>
+                <p class="stat-number">{{ total_students|default(24) }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-content">
+                <h3>Lessons Created</h3>
+                <p class="stat-number">{{ lessons_created|default(18) }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <h3>Avg. Performance</h3>
+                <p class="stat-number">{{ avg_performance|default(87) }}%</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <h3>Active Classes</h3>
+                <p class="stat-number">{{ active_classes|default(3) }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-cards">
+        <div class="card recent-activity-card">
+            <h3>Recent Student Activity</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-time">2 hours ago</span>
+                    <p>Sarah completed "Basic Algebra" with 95% score</p>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-time">4 hours ago</span>
+                    <p>Mike started "Introduction to Geometry"</p>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-time">1 day ago</span>
+                    <p>Emma submitted essay for "Creative Writing"</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card quick-actions-card">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="/lessons/create" class="btn btn-primary">Create New Lesson</a>
+                <a href="/dashboard/class-management" class="btn btn-secondary">Manage Classes</a>
+                <a href="/dashboard/student-progress" class="btn btn-secondary">View Progress</a>
+                <a href="/lessons/assign" class="btn btn-secondary">Assign Lessons</a>
+            </div>
+        </div>
+        
+        <div class="card class-overview-card">
+            <h3>Class Overview</h3>
+            <div class="class-list">
+                <div class="class-item">
+                    <h4>Mathematics 101</h4>
+                    <p>15 students • 8 lessons • 87% avg</p>
+                    <a href="/dashboard/class/1" class="btn btn-small">View Details</a>
+                </div>
+                <div class="class-item">
+                    <h4>Science Lab</h4>
+                    <p>12 students • 6 lessons • 92% avg</p>
+                    <a href="/dashboard/class/2" class="btn btn-small">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.dashboard-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.dashboard-title { font-size: 2rem; margin-bottom: 1rem; color: #1f2937; }
+.dashboard-welcome { margin-bottom: 2rem; color: #6b7280; }
+.dashboard-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.stat-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; display: flex; align-items: center; }
+.stat-icon { font-size: 2rem; margin-right: 1rem; }
+.stat-number { font-size: 1.5rem; font-weight: bold; color: #4f46e5; margin: 0; }
+.dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+.activity-item { padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+.activity-time { font-size: 0.875rem; color: #9ca3af; }
+.action-buttons { display: flex; flex-direction: column; gap: 0.75rem; }
+.class-item { padding: 1rem 0; border-bottom: 1px solid #f3f4f6; }
+.btn-small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+</style>
+{% endblock %}
