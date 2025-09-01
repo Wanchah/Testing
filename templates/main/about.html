@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}About - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="about-header">
+        <h1>About EduMorph</h1>
+        <p>Transforming Education Through AI-Powered Learning</p>
+    </div>
+
+    <div class="about-content">
+        <div class="mission-section">
+            <h2>Our Mission</h2>
+            <p>EduMorph is dedicated to making quality education accessible to learners of all ages through innovative AI-powered technology. We believe that every individual deserves the opportunity to learn, grow, and succeed in their educational journey.</p>
+        </div>
+
+        <div class="sdg-section">
+            <h2>Supporting SDG 4: Quality Education</h2>
+            <div class="sdg-content">
+                <div class="sdg-text">
+                    <p>We are committed to the United Nations Sustainable Development Goal 4, which aims to "ensure inclusive and equitable quality education and promote lifelong learning opportunities for all."</p>
+                    <ul>
+                        <li>Providing accessible learning materials for all age groups</li>
+                        <li>Supporting personalized learning experiences</li>
+                        <li>Breaking down barriers to education</li>
+                        <li>Promoting lifelong learning</li>
+                    </ul>
+                </div>
+                <div class="sdg-visual">
+                    <div class="sdg-badge">
+                        <span class="sdg-number">4</span>
+                        <span class="sdg-text">Quality Education</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2>What Makes EduMorph Special</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Learning</h3>
+                    <p>Advanced artificial intelligence that adapts to your learning style and pace, providing personalized educational experiences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Multi-Format Content</h3>
+                    <p>Support for various document formats including PDF, DOCX, text files, and even YouTube videos for comprehensive learning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Content Generation</h3>
+                    <p>Automatically generate study materials like flashcards, summaries, and quiz questions from your uploaded content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Age-Adaptive Learning</h3>
+                    <p>Content tailored to different age groups, from children to adults, ensuring appropriate complexity and engagement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Intelligent Search</h3>
+                    <p>Find relevant learning materials quickly with our smart search system that understands context and content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your learning journey with detailed progress reports and performance analytics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2>Our Team</h2>
+            <p>EduMorph is built by a passionate team of educators, developers, and AI researchers who believe in the power of technology to transform education.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">👨‍💻</div>
+                    <h4>Development Team</h4>
+                    <p>Creating innovative solutions for modern education challenges</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">👩‍🏫</div>
+                    <h4>Education Experts</h4>
+                    <p>Ensuring content quality and pedagogical effectiveness</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">🔬</div>
+                    <h4>AI Researchers</h4>
+                    <p>Advancing the frontiers of educational technology</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="values-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <h4>Accessibility</h4>
+                    <p>Education should be available to everyone, regardless of their background or circumstances.</p>
+                </div>
+                <div class="value-item">
+                    <h4>Innovation</h4>
+                    <p>We continuously explore new technologies and methods to improve learning experiences.</p>
+                </div>
+                <div class="value-item">
+                    <h4>Quality</h4>
+                    <p>We maintain high standards in all our educational content and technology.</p>
+                </div>
+                <div class="value-item">
+                    <h4>Inclusivity</h4>
+                    <p>Our platform welcomes learners of all ages, abilities, and backgrounds.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.about-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 16px;
+}
+
+.about-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.about-header p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.about-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mission-section,
+.sdg-section,
+.features-section,
+.team-section,
+.values-section {
+    margin-bottom: 4rem;
+}
+
+.mission-section h2,
+.sdg-section h2,
+.features-section h2,
+.team-section h2,
+.values-section h2 {
+    color: #1f2937;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.mission-section p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #374151;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sdg-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.sdg-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 1.5rem;
+}
+
+.sdg-text ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sdg-text li {
+    padding: 0.5rem 0;
+    padding-left: 2rem;
+    position: relative;
+    color: #374151;
+}
+
+.sdg-text li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.sdg-badge {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.sdg-number {
+    display: block;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.sdg-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.feature-card p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.team-member {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.member-avatar {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.team-member h4 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.team-member p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.value-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.value-item h4 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.value-item p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .about-header h1 {
+        font-size: 2rem;
+    }
+    
+    .sdg-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-grid,
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="lesson-container">
+    <div class="lesson-header">
+        <div class="lesson-meta">
+            <span class="lesson-subject">{{ lesson.subject|default('Mathematics') }}</span>
+            <span class="lesson-level">{{ lesson.level|default('Intermediate') }}</span>
+            <span class="lesson-duration">{{ lesson.duration|default('45 min') }}</span>
+        </div>
+        <h1 class="lesson-title">{{ lesson.title|default('Introduction to Algebra') }}</h1>
+        <p class="lesson-description">{{ lesson.description|default('Learn the fundamentals of algebraic expressions and equations through interactive examples and practice problems.') }}</p>
+    </div>
+
+    <div class="lesson-content">
+        <div class="lesson-main">
+            <div class="content-section">
+                <h2>📚 Lesson Overview</h2>
+                <div class="overview-content">
+                    <p>This lesson covers essential algebraic concepts including variables, expressions, and basic equations. You'll learn through interactive examples and have the opportunity to practice with real-world problems.</p>
+                    
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li>Understand what variables and expressions are</li>
+                            <li>Learn to evaluate algebraic expressions</li>
+                            <li>Solve simple linear equations</li>
+                            <li>Apply algebra to real-world problems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Interactive Content</h2>
+                <div class="interactive-content">
+                    <div class="content-block">
+                        <h3>Variables and Expressions</h3>
+                        <p>A variable is a symbol (usually a letter) that represents a number that can change. For example, in the expression 2x + 3, x is a variable.</p>
+                        <div class="example-box">
+                            <h4>Example:</h4>
+                            <p>If x = 5, then 2x + 3 = 2(5) + 3 = 10 + 3 = 13</p>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>Solving Equations</h3>
+                        <p>To solve an equation, we need to find the value of the variable that makes the equation true.</p>
+                        <div class="example-box">
+                            <h4>Example:</h4>
+                            <p>Solve: 3x + 7 = 22</p>
+                            <p>Step 1: Subtract 7 from both sides</p>
+                            <p>3x = 15</p>
+                            <p>Step 2: Divide both sides by 3</p>
+                            <p>x = 5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🧮 Practice Problems</h2>
+                <div class="practice-problems">
+                    <div class="problem">
+                        <h4>Problem 1:</h4>
+                        <p>Evaluate the expression 4x - 2 when x = 3</p>
+                        <div class="answer-input">
+                            <input type="text" id="answer1" placeholder="Enter your answer">
+                            <button onclick="checkAnswer(1)" class="btn btn-primary">Check Answer</button>
+                        </div>
+                    </div>
+
+                    <div class="problem">
+                        <h4>Problem 2:</h4>
+                        <p>Solve the equation: 2x + 8 = 20</p>
+                        <div class="answer-input">
+                            <input type="text" id="answer2" placeholder="Enter your answer">
+                            <button onclick="checkAnswer(2)" class="btn btn-primary">Check Answer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-sidebar">
+            <div class="sidebar-card">
+                <h3>📊 Your Progress</h3>
+                <div class="progress-info">
+                    <div class="progress-item">
+                        <span>Content Read</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75%;"></div>
+                        </div>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-item">
+                        <span>Practice Completed</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 40%;"></div>
+                        </div>
+                        <span>40%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>🔗 Related Lessons</h3>
+                <ul class="related-lessons">
+                    <li><a href="/lessons/view/5">Basic Arithmetic Review</a></li>
+                    <li><a href="/lessons/view/6">Introduction to Functions</a></li>
+                    <li><a href="/lessons/view/7">Linear Equations</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>💡 Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="bookmarkLesson()">📌 Bookmark</button>
+                    <button class="btn btn-secondary" onclick="takeNotes()">📝 Take Notes</button>
+                    <button class="btn btn-primary" onclick="completeLesson()">✅ Complete Lesson</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function checkAnswer(problemNum) {
+    const answers = {
+        1: "10",
+        2: "6"
+    };
+    
+    const userAnswer = document.getElementById(`answer${problemNum}`).value.trim();
+    const correctAnswer = answers[problemNum];
+    
+    if (userAnswer === correctAnswer) {
+        alert(`Correct! Well done! 🎉`);
+    } else {
+        alert(`Not quite right. Try again! 💪`);
+    }
+}
+
+function bookmarkLesson() {
+    alert('Lesson bookmarked! 📌');
+}
+
+function takeNotes() {
+    alert('Notes feature coming soon! 📝');
+}
+
+function completeLesson() {
+    if (confirm('Are you sure you want to mark this lesson as complete?')) {
+        alert('Congratulations! Lesson completed! 🎓');
+        // Here you would typically send a request to the server
+    }
+}
+</script>
+
+<style>
+.lesson-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.lesson-header { margin-bottom: 2rem; }
+.lesson-meta { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.lesson-subject, .lesson-level, .lesson-duration { 
+    background: #e5e7eb; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem; 
+}
+.lesson-title { font-size: 2.5rem; margin-bottom: 1rem; color: #1f2937; }
+.lesson-description { font-size: 1.125rem; color: #6b7280; line-height: 1.6; }
+.lesson-content { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+.content-section { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; margin-bottom: 1.5rem; }
+.content-section h2 { color: #1f2937; margin-bottom: 1rem; }
+.content-block { margin-bottom: 1.5rem; }
+.example-box { background: #f9fafb; border-left: 4px solid #4f46e5; padding: 1rem; margin: 1rem 0; }
+.practice-problems .problem { background: #f9fafb; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.answer-input { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.answer-input input { flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; }
+.sidebar-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; margin-bottom: 1.5rem; }
+.progress-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.progress-bar { flex: 1; background: #e5e7eb; border-radius: 4px; height: 8px; margin: 0 0.5rem; }
+.progress { background: #10b981; height: 100%; border-radius: 4px; }
+.related-lessons { list-style: none; padding: 0; }
+.related-lessons li { padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6; }
+.related-lessons a { color: #4f46e5; text-decoration: none; }
+.action-buttons { display: flex; flex-direction: column; gap: 0.5rem; }
+@media (max-width: 768px) {
+    .lesson-content { grid-template-columns: 1fr; }
+    .lesson-meta { flex-wrap: wrap; }
+}
+</style>
+{% endblock %}

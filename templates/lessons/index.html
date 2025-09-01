@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="lessons-container">
+    <div class="lessons-header">
+        <h1>Available Lessons</h1>
+        <p>Choose from our comprehensive collection of AI-powered learning materials</p>
+        <div class="lesson-filters">
+            <select id="subject-filter" class="filter-select">
+                <option value="">All Subjects</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="science">Science</option>
+                <option value="language">Language Arts</option>
+                <option value="history">History</option>
+                <option value="geography">Geography</option>
+                <option value="arts">Arts & Music</option>
+            </select>
+            <select id="level-filter" class="filter-select">
+                <option value="">All Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+            <select id="age-filter" class="filter-select">
+                <option value="">All Ages</option>
+                <option value="children">Children (5-12)</option>
+                <option value="teens">Teens (13-17)</option>
+                <option value="young-adults">Young Adults (18-25)</option>
+                <option value="adults">Adults (25+)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="lessons-grid" id="lessons-grid">
+        <!-- Sample lessons - these would be populated from the database -->
+        <div class="lesson-card" data-subject="mathematics" data-level="beginner" data-age="children">
+            <div class="lesson-image">
+                <div class="lesson-icon">🔢</div>
+            </div>
+            <div class="lesson-content">
+                <h3>Basic Addition & Subtraction</h3>
+                <p>Learn fundamental math operations with interactive exercises</p>
+                <div class="lesson-meta">
+                    <span class="lesson-level">Beginner</span>
+                    <span class="lesson-duration">30 min</span>
+                </div>
+                <a href="/lessons/view/1" class="btn btn-primary">Start Lesson</a>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-subject="science" data-level="intermediate" data-age="teens">
+            <div class="lesson-image">
+                <div class="lesson-icon">🧬</div>
+            </div>
+            <div class="lesson-content">
+                <h3>Introduction to Genetics</h3>
+                <p>Explore the fascinating world of DNA and inheritance</p>
+                <div class="lesson-meta">
+                    <span class="lesson-level">Intermediate</span>
+                    <span class="lesson-duration">45 min</span>
+                </div>
+                <a href="/lessons/view/2" class="btn btn-primary">Start Lesson</a>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-subject="language" data-level="advanced" data-age="adults">
+            <div class="lesson-image">
+                <div class="lesson-icon">📝</div>
+            </div>
+            <div class="lesson-content">
+                <h3>Advanced Essay Writing</h3>
+                <p>Master the art of persuasive and analytical writing</p>
+                <div class="lesson-meta">
+                    <span class="lesson-level">Advanced</span>
+                    <span class="lesson-duration">60 min</span>
+                </div>
+                <a href="/lessons/view/3" class="btn btn-primary">Start Lesson</a>
+            </div>
+        </div>
+
+        <div class="lesson-card" data-subject="history" data-level="intermediate" data-age="young-adults">
+            <div class="lesson-image">
+                <div class="lesson-icon">🏛️</div>
+            </div>
+            <div class="lesson-content">
+                <h3>Ancient Civilizations</h3>
+                <p>Discover the rise and fall of great empires</p>
+                <div class="lesson-meta">
+                    <span class="lesson-level">Intermediate</span>
+                    <span class="lesson-duration">50 min</span>
+                </div>
+                <a href="/lessons/view/4" class="btn btn-primary">Start Lesson</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="create-lesson-section">
+        <h2>Create Your Own Lesson</h2>
+        <p>Teachers can create custom lessons tailored to their students' needs</p>
+        <a href="/lessons/create" class="btn btn-secondary">Create Lesson</a>
+    </div>
+</div>
+
+<script>
+// Simple filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filters = ['subject-filter', 'level-filter', 'age-filter'];
+    const lessonGrid = document.getElementById('lessons-grid');
+    
+    filters.forEach(filterId => {
+        document.getElementById(filterId).addEventListener('change', filterLessons);
+    });
+    
+    function filterLessons() {
+        const subject = document.getElementById('subject-filter').value;
+        const level = document.getElementById('level-filter').value;
+        const age = document.getElementById('age-filter').value;
+        
+        const lessons = lessonGrid.querySelectorAll('.lesson-card');
+        
+        lessons.forEach(lesson => {
+            let show = true;
+            
+            if (subject && lesson.dataset.subject !== subject) show = false;
+            if (level && lesson.dataset.level !== level) show = false;
+            if (age && lesson.dataset.age !== age) show = false;
+            
+            lesson.style.display = show ? 'block' : 'none';
+        });
+    }
+});
+</script>
+{% endblock %}

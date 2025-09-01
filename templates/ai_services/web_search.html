@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Web Search - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="web-search-header">
+        <h1>Web Search</h1>
+        <p>Search the internet for educational content and automatically generate learning materials</p>
+    </div>
+
+    <div class="web-search-form">
+        <form method="POST" class="search-form">
+            <div class="form-group">
+                <label for="search_query">Search Query *</label>
+                <input type="text" id="search_query" name="search_query" 
+                       placeholder="e.g., 'machine learning basics', 'world war 2 history', 'photosynthesis process'" 
+                       required>
+                <small>Enter educational topics, concepts, or questions you want to learn about</small>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject/Category</label>
+                <select id="subject" name="subject">
+                    <option value="general">General</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                    <option value="literature">Literature</option>
+                    <option value="language">Language Arts</option>
+                    <option value="geography">Geography</option>
+                    <option value="arts">Arts & Music</option>
+                    <option value="computer_science">Computer Science</option>
+                    <option value="philosophy">Philosophy</option>
+                    <option value="psychology">Psychology</option>
+                    <option value="economics">Economics</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="max_results">Maximum Results</label>
+                <select id="max_results" name="max_results">
+                    <option value="3">3 results</option>
+                    <option value="5" selected>5 results</option>
+                    <option value="10">10 results</option>
+                    <option value="15">15 results</option>
+                </select>
+                <small>Number of web pages to process and store</small>
+            </div>
+
+            <div class="search-actions">
+                <button type="submit" class="search-button">
+                    <span class="button-text">🔍 Search & Process</span>
+                    <span class="loading-text" style="display: none;">⏳ Searching...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="web-search-info">
+        <h3>How Web Search Works</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-icon">🔍</div>
+                <h4>Search</h4>
+                <p>We search the internet for relevant educational content based on your query</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">📄</div>
+                <h4>Extract</h4>
+                <p>Content is extracted from web pages and stored in our database</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">🤖</div>
+                <h4>Process</h4>
+                <p>AI analyzes the content and generates notes, summaries, and study materials</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">📚</div>
+                <h4>Learn</h4>
+                <p>Access your processed content anytime for studying and reference</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-tips">
+        <h3>Search Tips</h3>
+        <ul>
+            <li>Use specific keywords for better results</li>
+            <li>Include subject area in your search (e.g., "biology photosynthesis")</li>
+            <li>Try different phrasings if you don't get good results</li>
+            <li>Use educational terms like "tutorial", "guide", "explanation"</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.web-search-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.web-search-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.web-search-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.web-search-form {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4f46e5;
+}
+
+.form-group small {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.search-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.search-button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.search-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+}
+
+.web-search-info {
+    margin-bottom: 3rem;
+}
+
+.web-search-info h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 2rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.info-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.info-item h4 {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.info-item p {
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.search-tips {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid #e2e8f0;
+}
+
+.search-tips h3 {
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.search-tips ul {
+    list-style: none;
+    padding: 0;
+}
+
+.search-tips li {
+    padding: 0.5rem 0;
+    color: #374151;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.search-tips li:before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+}
+
+@media (max-width: 768px) {
+    .web-search-form {
+        margin: 0 1rem 3rem;
+        padding: 1.5rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.querySelector('.search-form').addEventListener('submit', function(e) {
+    const button = document.querySelector('.search-button');
+    const buttonText = button.querySelector('.button-text');
+    const loadingText = button.querySelector('.loading-text');
+    
+    buttonText.style.display = 'none';
+    loadingText.style.display = 'inline';
+    button.disabled = true;
+});
+</script>
+{% endblock %}

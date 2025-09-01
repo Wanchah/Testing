@@ -1,0 +1,590 @@
+{% extends "base.html" %}
+
+{% block title %}Layout Settings - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="settings-header">
+        <h1>Layout Settings</h1>
+        <p>Customize how your learning experience is organized and displayed</p>
+    </div>
+
+    <div class="layout-settings">
+        <div class="layout-section">
+            <h3>Page Layout</h3>
+            <div class="layout-option">
+                <label for="sidebar-position">Sidebar Position</label>
+                <select id="sidebar-position">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="hidden">Hidden</option>
+                </select>
+            </div>
+
+            <div class="layout-option">
+                <label for="content-width">Content Width</label>
+                <select id="content-width">
+                    <option value="narrow">Narrow (800px)</option>
+                    <option value="standard">Standard (1200px)</option>
+                    <option value="wide">Wide (1400px)</option>
+                    <option value="full">Full Width</option>
+                </select>
+            </div>
+
+            <div class="layout-option">
+                <label for="card-layout">Card Layout</label>
+                <select id="card-layout">
+                    <option value="grid">Grid</option>
+                    <option value="list">List</option>
+                    <option value="masonry">Masonry</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layout-section">
+            <h3>Navigation</h3>
+            <div class="layout-option">
+                <label for="nav-style">Navigation Style</label>
+                <select id="nav-style">
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                    <option value="minimal">Minimal</option>
+                </select>
+            </div>
+
+            <div class="layout-option">
+                <label for="breadcrumbs">Show Breadcrumbs</label>
+                <input type="checkbox" id="breadcrumbs" checked>
+            </div>
+
+            <div class="layout-option">
+                <label for="quick-actions">Show Quick Actions</label>
+                <input type="checkbox" id="quick-actions" checked>
+            </div>
+        </div>
+
+        <div class="layout-section">
+            <h3>Content Display</h3>
+            <div class="layout-option">
+                <label for="lesson-view">Default Lesson View</label>
+                <select id="lesson-view">
+                    <option value="full">Full Content</option>
+                    <option value="summary">Summary + Expand</option>
+                    <option value="step-by-step">Step by Step</option>
+                </select>
+            </div>
+
+            <div class="layout-option">
+                <label for="auto-expand">Auto-expand Content</label>
+                <input type="checkbox" id="auto-expand">
+            </div>
+
+            <div class="layout-option">
+                <label for="show-progress">Show Progress Bar</label>
+                <input type="checkbox" id="show-progress" checked>
+            </div>
+        </div>
+
+        <div class="layout-section">
+            <h3>Dashboard Layout</h3>
+            <div class="layout-option">
+                <label for="dashboard-style">Dashboard Style</label>
+                <select id="dashboard-style">
+                    <option value="cards">Cards</option>
+                    <option value="table">Table</option>
+                    <option value="kanban">Kanban</option>
+                </select>
+            </div>
+
+            <div class="layout-option">
+                <label for="widgets">Default Widgets</label>
+                <div class="widget-selection">
+                    <label><input type="checkbox" value="progress" checked> Progress Overview</label>
+                    <label><input type="checkbox" value="recent" checked> Recent Activity</label>
+                    <label><input type="checkbox" value="stats" checked> Statistics</label>
+                    <label><input type="checkbox" value="calendar"> Calendar</label>
+                    <label><input type="checkbox" value="notifications"> Notifications</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-preview">
+        <h3>Layout Preview</h3>
+        <div class="preview-container">
+            <div class="preview-header">
+                <div class="preview-nav">
+                    <span>Home</span> > <span>Lessons</span> > <span>Mathematics</span>
+                </div>
+            </div>
+            <div class="preview-content">
+                <div class="preview-sidebar" id="preview-sidebar">
+                    <div class="preview-widget">
+                        <h4>Quick Navigation</h4>
+                        <ul>
+                            <li>Overview</li>
+                            <li>Exercises</li>
+                            <li>Resources</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="preview-main" id="preview-main">
+                    <div class="preview-card">
+                        <h4>Sample Content</h4>
+                        <p>This is how your content will look with the selected layout settings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-actions">
+        <button class="btn btn-primary" onclick="saveLayoutSettings()">Save Layout Settings</button>
+        <button class="btn btn-secondary" onclick="resetLayoutSettings()">Reset to Default</button>
+        <button class="btn btn-outline" onclick="exportLayoutSettings()">Export Settings</button>
+    </div>
+</div>
+
+<style>
+.settings-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-radius: 16px;
+}
+
+.settings-header h1 {
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.settings-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.layout-settings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.layout-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.layout-section h3 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.layout-option {
+    margin-bottom: 1.5rem;
+}
+
+.layout-option label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.layout-option select,
+.layout-option input[type="checkbox"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    font-size: 0.95rem;
+}
+
+.layout-option input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+}
+
+.widget-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+}
+
+.widget-selection label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.layout-preview {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.layout-preview h3 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.preview-container {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.preview-header {
+    background: #f8fafc;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-nav {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.preview-content {
+    display: flex;
+    min-height: 300px;
+}
+
+.preview-sidebar {
+    width: 250px;
+    background: #f1f5f9;
+    padding: 1rem;
+    border-right: 1px solid #e2e8f0;
+}
+
+.preview-widget {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.preview-widget h4 {
+    margin-bottom: 0.75rem;
+    color: #1e293b;
+    font-size: 0.9rem;
+}
+
+.preview-widget ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.preview-widget li {
+    padding: 0.25rem 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.preview-widget li:hover {
+    color: #3b82f6;
+}
+
+.preview-main {
+    flex: 1;
+    padding: 1.5rem;
+    background: white;
+}
+
+.preview-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.preview-card h4 {
+    margin-bottom: 0.75rem;
+    color: #1e293b;
+}
+
+.preview-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.layout-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #10b981;
+    border: 2px solid #10b981;
+}
+
+.btn-outline:hover {
+    background: #10b981;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .layout-settings {
+        grid-template-columns: 1fr;
+    }
+    
+    .layout-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .preview-content {
+        flex-direction: column;
+    }
+    
+    .preview-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadLayoutSettings();
+    setupLayoutPreview();
+});
+
+function loadLayoutSettings() {
+    // Load saved settings from localStorage or database
+    const savedSettings = JSON.parse(localStorage.getItem('layoutSettings')) || {};
+    
+    // Apply saved settings to form elements
+    Object.keys(savedSettings).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+            if (element.type === 'checkbox') {
+                element.checked = savedSettings[key];
+            } else {
+                element.value = savedSettings[key];
+            }
+        }
+    });
+}
+
+function setupLayoutPreview() {
+    // Update preview based on current settings
+    updateLayoutPreview();
+    
+    // Add event listeners to form elements
+    const formElements = document.querySelectorAll('.layout-option select, .layout-option input');
+    formElements.forEach(element => {
+        element.addEventListener('change', updateLayoutPreview);
+    });
+}
+
+function updateLayoutPreview() {
+    const sidebarPosition = document.getElementById('sidebar-position').value;
+    const contentWidth = document.getElementById('content-width').value;
+    const cardLayout = document.getElementById('card-layout').value;
+    
+    const previewContent = document.querySelector('.preview-content');
+    const previewSidebar = document.getElementById('preview-sidebar');
+    const previewMain = document.getElementById('preview-main');
+    
+    // Update sidebar position
+    if (sidebarPosition === 'right') {
+        previewContent.style.flexDirection = 'row-reverse';
+        previewSidebar.style.borderRight = 'none';
+        previewSidebar.style.borderLeft = '1px solid #e2e8f0';
+    } else if (sidebarPosition === 'hidden') {
+        previewSidebar.style.display = 'none';
+    } else {
+        previewContent.style.flexDirection = 'row';
+        previewSidebar.style.display = 'block';
+        previewSidebar.style.borderRight = '1px solid #e2e8f0';
+        previewSidebar.style.borderLeft = 'none';
+    }
+    
+    // Update content width
+    const container = document.querySelector('.container');
+    switch(contentWidth) {
+        case 'narrow':
+            container.style.maxWidth = '800px';
+            break;
+        case 'wide':
+            container.style.maxWidth = '1400px';
+            break;
+        case 'full':
+            container.style.maxWidth = '100%';
+            break;
+        default:
+            container.style.maxWidth = '1200px';
+    }
+    
+    // Update card layout preview
+    const previewCard = document.querySelector('.preview-card');
+    if (cardLayout === 'list') {
+        previewCard.style.borderRadius = '4px';
+        previewCard.style.marginBottom = '0.5rem';
+    } else if (cardLayout === 'masonry') {
+        previewCard.style.borderRadius = '16px';
+        previewCard.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+    } else {
+        previewCard.style.borderRadius = '8px';
+        previewCard.style.boxShadow = 'none';
+    }
+}
+
+function saveLayoutSettings() {
+    const settings = {};
+    
+    // Collect all form values
+    const formElements = document.querySelectorAll('.layout-option select, .layout-option input');
+    formElements.forEach(element => {
+        if (element.type === 'checkbox') {
+            settings[element.id] = element.checked;
+        } else {
+            settings[element.id] = element.value;
+        }
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('layoutSettings', JSON.stringify(settings));
+    
+    // Show success message
+    showNotification('Layout settings saved successfully!', 'success');
+    
+    // Apply settings globally
+    applyLayoutSettings(settings);
+}
+
+function resetLayoutSettings() {
+    if (confirm('Are you sure you want to reset all layout settings to default?')) {
+        localStorage.removeItem('layoutSettings');
+        location.reload();
+    }
+}
+
+function exportLayoutSettings() {
+    const settings = localStorage.getItem('layoutSettings');
+    if (settings) {
+        const blob = new Blob([settings], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'edumorph-layout-settings.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+}
+
+function applyLayoutSettings(settings) {
+    // Apply settings to the current page
+    if (settings.sidebarPosition) {
+        document.documentElement.style.setProperty('--sidebar-position', settings.sidebarPosition);
+    }
+    
+    if (settings.contentWidth) {
+        document.documentElement.style.setProperty('--content-width', settings.contentWidth);
+    }
+    
+    // Add more global application logic here
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    if (type === 'success') {
+        notification.style.background = '#10b981';
+    } else if (type === 'error') {
+        notification.style.background = '#ef4444';
+    } else {
+        notification.style.background = '#3b82f6';
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

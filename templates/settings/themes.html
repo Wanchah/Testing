@@ -1,0 +1,871 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="settings-container">
+    <div class="settings-header">
+        <h1>🎨 Theme Customization</h1>
+        <p>Personalize your EduMorph experience with custom colors, fonts, and visual styles.</p>
+    </div>
+
+    <div class="settings-grid">
+        <!-- Theme Presets -->
+        <div class="settings-card">
+            <h3>🎭 Theme Presets</h3>
+            <div class="theme-presets">
+                <button class="theme-preset active" data-theme="modern">
+                    <div class="preset-preview modern-preview"></div>
+                    <span>Modern</span>
+                </button>
+                <button class="theme-preset" data-theme="classic">
+                    <div class="preset-preview classic-preview"></div>
+                    <span>Classic</span>
+                </button>
+                <button class="theme-preset" data-theme="dark">
+                    <div class="preset-preview dark-preview"></div>
+                    <span>Dark</span>
+                </button>
+                <button class="theme-preset" data-theme="colorful">
+                    <div class="preset-preview colorful-preview"></div>
+                    <span>Colorful</span>
+                </button>
+                <button class="theme-preset" data-theme="minimal">
+                    <div class="preset-preview minimal-preview"></div>
+                    <span>Minimal</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Color Customization -->
+        <div class="settings-card">
+            <h3>🌈 Color Scheme</h3>
+            <div class="color-options">
+                <div class="color-option">
+                    <label for="primaryColor">Primary Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="primaryColor" value="#4f46e5" class="color-picker">
+                        <input type="text" id="primaryColorHex" value="#4f46e5" class="color-hex">
+                    </div>
+                </div>
+                
+                <div class="color-option">
+                    <label for="secondaryColor">Secondary Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="secondaryColor" value="#7c3aed" class="color-picker">
+                        <input type="text" id="secondaryColorHex" value="#7c3aed" class="color-hex">
+                    </div>
+                </div>
+                
+                <div class="color-option">
+                    <label for="accentColor">Accent Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="accentColor" value="#10b981" class="color-picker">
+                        <input type="text" id="accentColorHex" value="#10b981" class="color-hex">
+                    </div>
+                </div>
+                
+                <div class="color-option">
+                    <label for="backgroundColor">Background Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="backgroundColor" value="#ffffff" class="color-picker">
+                        <input type="text" id="backgroundColorHex" value="#ffffff" class="color-hex">
+                    </div>
+                </div>
+                
+                <div class="color-option">
+                    <label for="textColor">Text Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="textColor" value="#1f2937" class="color-picker">
+                        <input type="text" id="textColorHex" value="#1f2937" class="color-hex">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="settings-card">
+            <h3>📝 Typography</h3>
+            <div class="typography-options">
+                <div class="option-group">
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily" class="setting-select">
+                        <option value="system">System Default</option>
+                        <option value="arial">Arial</option>
+                        <option value="helvetica">Helvetica</option>
+                        <option value="georgia">Georgia</option>
+                        <option value="times">Times New Roman</option>
+                        <option value="roboto">Roboto</option>
+                        <option value="open-sans">Open Sans</option>
+                        <option value="lato">Lato</option>
+                        <option value="poppins">Poppins</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label for="fontSize">Font Size</label>
+                    <select id="fontSize" class="setting-select">
+                        <option value="small">Small (12px)</option>
+                        <option value="medium" selected>Medium (16px)</option>
+                        <option value="large">Large (20px)</option>
+                        <option value="xlarge">Extra Large (24px)</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label for="lineHeight">Line Height</label>
+                    <select id="lineHeight" class="setting-select">
+                        <option value="tight">Tight (1.2)</option>
+                        <option value="normal" selected>Normal (1.5)</option>
+                        <option value="relaxed">Relaxed (1.8)</option>
+                        <option value="loose">Loose (2.0)</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label for="fontWeight">Font Weight</label>
+                    <select id="fontWeight" class="setting-select">
+                        <option value="light">Light (300)</option>
+                        <option value="normal" selected>Normal (400)</option>
+                        <option value="medium">Medium (500)</option>
+                        <option value="semibold">Semibold (600)</option>
+                        <option value="bold">Bold (700)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Effects -->
+        <div class="settings-card">
+            <h3>✨ Visual Effects</h3>
+            <div class="effects-options">
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="shadows" checked>
+                        <span class="checkmark"></span>
+                        Enable Shadows
+                    </label>
+                </div>
+                
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="roundedCorners" checked>
+                        <span class="checkmark"></span>
+                        Rounded Corners
+                    </label>
+                </div>
+                
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="animations" checked>
+                        <span class="checkmark"></span>
+                        Smooth Animations
+                    </span>
+                </div>
+                
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="gradients">
+                        <span class="checkmark"></span>
+                        Gradient Backgrounds
+                    </label>
+                </div>
+                
+                <div class="option-group">
+                    <label for="borderRadius">Border Radius</label>
+                    <input type="range" id="borderRadius" min="0" max="20" value="8" class="range-slider">
+                    <span class="range-value">8px</span>
+                </div>
+                
+                <div class="option-group">
+                    <label for="shadowIntensity">Shadow Intensity</label>
+                    <input type="range" id="shadowIntensity" min="0" max="100" value="20" class="range-slider">
+                    <span class="range-value">20%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="preview-section">
+        <h3>👀 Live Preview</h3>
+        <div class="preview-container">
+            <div class="preview-card" id="previewCard">
+                <div class="preview-header">
+                    <h4>Sample Content</h4>
+                    <p>This is how your content will look with the selected theme.</p>
+                </div>
+                <div class="preview-content">
+                    <div class="preview-button primary">Primary Button</div>
+                    <div class="preview-button secondary">Secondary Button</div>
+                    <div class="preview-text">
+                        <p>This is a sample paragraph to demonstrate how your text will appear with the selected typography settings.</p>
+                        <ul>
+                            <li>List item one</li>
+                            <li>List item two</li>
+                            <li>List item three</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="resetTheme()">🔄 Reset to Defaults</button>
+        <button class="btn btn-primary" onclick="saveTheme()">💾 Save Theme</button>
+        <button class="btn btn-outline" onclick="exportTheme()">📤 Export Theme</button>
+    </div>
+</div>
+
+<script>
+// Theme presets
+const themePresets = {
+    modern: {
+        primaryColor: '#4f46e5',
+        secondaryColor: '#7c3aed',
+        accentColor: '#10b981',
+        backgroundColor: '#ffffff',
+        textColor: '#1f2937',
+        fontFamily: 'system',
+        fontSize: 'medium',
+        lineHeight: 'normal',
+        fontWeight: 'normal',
+        shadows: true,
+        roundedCorners: true,
+        animations: true,
+        gradients: false,
+        borderRadius: 8,
+        shadowIntensity: 20
+    },
+    classic: {
+        primaryColor: '#2563eb',
+        secondaryColor: '#1e40af',
+        accentColor: '#059669',
+        backgroundColor: '#f8fafc',
+        textColor: '#1e293b',
+        fontFamily: 'georgia',
+        fontSize: 'medium',
+        lineHeight: 'relaxed',
+        fontWeight: 'normal',
+        shadows: false,
+        roundedCorners: false,
+        animations: false,
+        gradients: false,
+        borderRadius: 0,
+        shadowIntensity: 0
+    },
+    dark: {
+        primaryColor: '#8b5cf6',
+        secondaryColor: '#a855f7',
+        accentColor: '#06b6d4',
+        backgroundColor: '#0f172a',
+        textColor: '#f1f5f9',
+        fontFamily: 'system',
+        fontSize: 'medium',
+        lineHeight: 'normal',
+        fontWeight: 'normal',
+        shadows: true,
+        roundedCorners: true,
+        animations: true,
+        gradients: true,
+        borderRadius: 12,
+        shadowIntensity: 40
+    },
+    colorful: {
+        primaryColor: '#ef4444',
+        secondaryColor: '#f59e0b',
+        accentColor: '#10b981',
+        backgroundColor: '#fef3c7',
+        textColor: '#92400e',
+        fontFamily: 'poppins',
+        fontSize: 'large',
+        lineHeight: 'relaxed',
+        fontWeight: 'medium',
+        shadows: true,
+        roundedCorners: true,
+        animations: true,
+        gradients: true,
+        borderRadius: 16,
+        shadowIntensity: 30
+    },
+    minimal: {
+        primaryColor: '#6b7280',
+        secondaryColor: '#9ca3af',
+        accentColor: '#d1d5db',
+        backgroundColor: '#ffffff',
+        textColor: '#374151',
+        fontFamily: 'system',
+        fontSize: 'medium',
+        lineHeight: 'tight',
+        fontWeight: 'light',
+        shadows: false,
+        roundedCorners: false,
+        animations: false,
+        gradients: false,
+        borderRadius: 0,
+        shadowIntensity: 0
+    }
+};
+
+// Initialize theme
+let currentTheme = { ...themePresets.modern };
+
+// Theme preset selection
+document.querySelectorAll('.theme-preset').forEach(button => {
+    button.addEventListener('click', function() {
+        // Remove active class from all presets
+        document.querySelectorAll('.theme-preset').forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked preset
+        this.classList.add('active');
+        
+        const themeName = this.dataset.theme;
+        applyTheme(themePresets[themeName]);
+    });
+});
+
+// Color picker synchronization
+document.querySelectorAll('.color-picker').forEach(picker => {
+    picker.addEventListener('input', function() {
+        const hexInput = document.getElementById(this.id + 'Hex');
+        hexInput.value = this.value;
+        updatePreview();
+    });
+});
+
+document.querySelectorAll('.color-hex').forEach(input => {
+    input.addEventListener('input', function() {
+        const colorPicker = document.getElementById(this.id.replace('Hex', ''));
+        if (/^#[0-9A-F]{6}$/i.test(this.value)) {
+            colorPicker.value = this.value;
+            updatePreview();
+        }
+    });
+});
+
+// Typography and effects changes
+document.querySelectorAll('.setting-select, .range-slider').forEach(element => {
+    element.addEventListener('change', updatePreview);
+});
+
+document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', updatePreview);
+});
+
+// Range slider value display
+document.querySelectorAll('.range-slider').forEach(slider => {
+    slider.addEventListener('input', function() {
+        const valueDisplay = this.parentNode.querySelector('.range-value');
+        if (this.id === 'borderRadius') {
+            valueDisplay.textContent = this.value + 'px';
+        } else {
+            valueDisplay.textContent = this.value + '%';
+        }
+        updatePreview();
+    });
+});
+
+// Apply theme
+function applyTheme(theme) {
+    currentTheme = { ...theme };
+    
+    // Update form values
+    document.getElementById('primaryColor').value = theme.primaryColor;
+    document.getElementById('primaryColorHex').value = theme.primaryColor;
+    document.getElementById('secondaryColor').value = theme.secondaryColor;
+    document.getElementById('secondaryColorHex').value = theme.secondaryColor;
+    document.getElementById('accentColor').value = theme.accentColor;
+    document.getElementById('accentColorHex').value = theme.accentColor;
+    document.getElementById('backgroundColor').value = theme.backgroundColor;
+    document.getElementById('backgroundColorHex').value = theme.backgroundColor;
+    document.getElementById('textColor').value = theme.textColor;
+    document.getElementById('textColorHex').value = theme.textColor;
+    
+    document.getElementById('fontFamily').value = theme.fontFamily;
+    document.getElementById('fontSize').value = theme.fontSize;
+    document.getElementById('lineHeight').value = theme.lineHeight;
+    document.getElementById('fontWeight').value = theme.fontWeight;
+    
+    document.getElementById('shadows').checked = theme.shadows;
+    document.getElementById('roundedCorners').checked = theme.roundedCorners;
+    document.getElementById('animations').checked = theme.animations;
+    document.getElementById('gradients').checked = theme.gradients;
+    
+    document.getElementById('borderRadius').value = theme.borderRadius;
+    document.getElementById('shadowIntensity').value = theme.shadowIntensity;
+    
+    // Update range value displays
+    document.querySelector('#borderRadius + .range-value').textContent = theme.borderRadius + 'px';
+    document.querySelector('#shadowIntensity + .range-value').textContent = theme.shadowIntensity + '%';
+    
+    updatePreview();
+}
+
+// Update preview
+function updatePreview() {
+    const previewCard = document.getElementById('previewCard');
+    
+    // Get current values
+    const primaryColor = document.getElementById('primaryColor').value;
+    const secondaryColor = document.getElementById('secondaryColor').value;
+    const accentColor = document.getElementById('accentColor').value;
+    const backgroundColor = document.getElementById('backgroundColor').value;
+    const textColor = document.getElementById('textColor').value;
+    const fontFamily = document.getElementById('fontFamily').value;
+    const fontSize = document.getElementById('fontSize').value;
+    const lineHeight = document.getElementById('lineHeight').value;
+    const fontWeight = document.getElementById('fontWeight').value;
+    const shadows = document.getElementById('shadows').checked;
+    const roundedCorners = document.getElementById('roundedCorners').checked;
+    const borderRadius = document.getElementById('borderRadius').value;
+    const shadowIntensity = document.getElementById('shadowIntensity').value;
+    
+    // Apply styles
+    previewCard.style.backgroundColor = backgroundColor;
+    previewCard.style.color = textColor;
+    previewCard.style.fontFamily = getFontFamily(fontFamily);
+    previewCard.style.fontSize = getFontSize(fontSize);
+    previewCard.style.lineHeight = getLineHeight(lineHeight);
+    previewCard.style.fontWeight = getFontWeight(fontWeight);
+    
+    if (roundedCorners) {
+        previewCard.style.borderRadius = borderRadius + 'px';
+    } else {
+        previewCard.style.borderRadius = '0';
+    }
+    
+    if (shadows) {
+        const shadowOpacity = shadowIntensity / 100;
+        previewCard.style.boxShadow = `0 4px 6px rgba(0, 0, 0, ${shadowOpacity * 0.1})`;
+    } else {
+        previewCard.style.boxShadow = 'none';
+    }
+    
+    // Update button styles
+    document.querySelector('.preview-button.primary').style.backgroundColor = primaryColor;
+    document.querySelector('.preview-button.secondary').style.backgroundColor = secondaryColor;
+}
+
+// Helper functions
+function getFontFamily(family) {
+    const fontMap = {
+        'system': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'arial': 'Arial, sans-serif',
+        'helvetica': 'Helvetica, Arial, sans-serif',
+        'georgia': 'Georgia, serif',
+        'times': 'Times New Roman, serif',
+        'roboto': 'Roboto, sans-serif',
+        'open-sans': 'Open Sans, sans-serif',
+        'lato': 'Lato, sans-serif',
+        'poppins': 'Poppins, sans-serif'
+    };
+    return fontMap[family] || fontMap['system'];
+}
+
+function getFontSize(size) {
+    const sizeMap = {
+        'small': '12px',
+        'medium': '16px',
+        'large': '20px',
+        'xlarge': '24px'
+    };
+    return sizeMap[size] || '16px';
+}
+
+function getLineHeight(height) {
+    const heightMap = {
+        'tight': '1.2',
+        'normal': '1.5',
+        'relaxed': '1.8',
+        'loose': '2.0'
+    };
+    return heightMap[height] || '1.5';
+}
+
+function getFontWeight(weight) {
+    const weightMap = {
+        'light': '300',
+        'normal': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700'
+    };
+    return weightMap[weight] || '400';
+}
+
+// Save theme
+function saveTheme() {
+    // Collect all current values
+    const theme = {
+        primaryColor: document.getElementById('primaryColor').value,
+        secondaryColor: document.getElementById('secondaryColor').value,
+        accentColor: document.getElementById('accentColor').value,
+        backgroundColor: document.getElementById('backgroundColor').value,
+        textColor: document.getElementById('textColor').value,
+        fontFamily: document.getElementById('fontFamily').value,
+        fontSize: document.getElementById('fontSize').value,
+        lineHeight: document.getElementById('lineHeight').value,
+        fontWeight: document.getElementById('fontWeight').value,
+        shadows: document.getElementById('shadows').checked,
+        roundedCorners: document.getElementById('roundedCorners').checked,
+        animations: document.getElementById('animations').checked,
+        gradients: document.getElementById('gradients').checked,
+        borderRadius: parseInt(document.getElementById('borderRadius').value),
+        shadowIntensity: parseInt(document.getElementById('shadowIntensity').value)
+    };
+    
+    // Save to localStorage
+    localStorage.setItem('edumorph-theme', JSON.stringify(theme));
+    
+    // Show success message
+    alert('Theme saved successfully!');
+}
+
+// Reset theme
+function resetTheme() {
+    if (confirm('Are you sure you want to reset to default theme?')) {
+        applyTheme(themePresets.modern);
+        localStorage.removeItem('edumorph-theme');
+        alert('Theme reset to defaults!');
+    }
+}
+
+// Export theme
+function exportTheme() {
+    const theme = {
+        primaryColor: document.getElementById('primaryColor').value,
+        secondaryColor: document.getElementById('secondaryColor').value,
+        accentColor: document.getElementById('accentColor').value,
+        backgroundColor: document.getElementById('backgroundColor').value,
+        textColor: document.getElementById('textColor').value,
+        fontFamily: document.getElementById('fontFamily').value,
+        fontSize: document.getElementById('fontSize').value,
+        lineHeight: document.getElementById('lineHeight').value,
+        fontWeight: document.getElementById('fontWeight').value,
+        shadows: document.getElementById('shadows').checked,
+        roundedCorners: document.getElementById('roundedCorners').checked,
+        animations: document.getElementById('animations').checked,
+        gradients: document.getElementById('gradients').checked,
+        borderRadius: parseInt(document.getElementById('borderRadius').value),
+        shadowIntensity: parseInt(document.getElementById('shadowIntensity').value)
+    };
+    
+    const dataStr = JSON.stringify(theme, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = 'edumorph-theme.json';
+    link.click();
+}
+
+// Load saved theme on page load
+window.addEventListener('load', function() {
+    const savedTheme = localStorage.getItem('edumorph-theme');
+    if (savedTheme) {
+        try {
+            const theme = JSON.parse(savedTheme);
+            applyTheme(theme);
+        } catch (e) {
+            console.error('Error loading saved theme:', e);
+        }
+    }
+    
+    // Initialize preview
+    updatePreview();
+});
+</script>
+
+<style>
+.settings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.settings-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.settings-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.settings-header p {
+    color: #6b7280;
+    font-size: 1.125rem;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.settings-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.settings-card h3 {
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+/* Theme Presets */
+.theme-presets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+}
+
+.theme-preset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-preset:hover {
+    border-color: #4f46e5;
+    transform: translateY(-2px);
+}
+
+.theme-preset.active {
+    border-color: #4f46e5;
+    background: #f0f9ff;
+}
+
+.preset-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+}
+
+.modern-preview { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
+.classic-preview { background: linear-gradient(135deg, #2563eb, #1e40af); }
+.dark-preview { background: linear-gradient(135deg, #0f172a, #1e293b); }
+.colorful-preview { background: linear-gradient(135deg, #ef4444, #f59e0b); }
+.minimal-preview { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+
+/* Color Options */
+.color-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.color-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-option label {
+    font-weight: 500;
+    color: #374151;
+    min-width: 120px;
+}
+
+.color-picker-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.color-picker {
+    width: 50px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.color-hex {
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: monospace;
+    text-align: center;
+}
+
+/* Typography Options */
+.typography-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.option-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.option-group label {
+    font-weight: 500;
+    color: #374151;
+    min-width: 120px;
+}
+
+.setting-select {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    min-width: 150px;
+}
+
+/* Effects Options */
+.effects-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.range-slider {
+    width: 100px;
+    margin: 0 1rem;
+}
+
+.range-value {
+    min-width: 40px;
+    text-align: right;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+/* Preview Section */
+.preview-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.preview-section h3 {
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.preview-container {
+    display: flex;
+    justify-content: center;
+}
+
+.preview-card {
+    max-width: 500px;
+    width: 100%;
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.preview-header h4 {
+    color: inherit;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.preview-header p {
+    color: inherit;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.preview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.preview-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.preview-button:hover {
+    opacity: 0.9;
+}
+
+.preview-text p {
+    margin-bottom: 1rem;
+    line-height: inherit;
+}
+
+.preview-text ul {
+    padding-left: 1.5rem;
+}
+
+.preview-text li {
+    margin-bottom: 0.5rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 1rem;
+    }
+    
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .color-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .option-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %}

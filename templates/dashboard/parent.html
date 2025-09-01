@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="dashboard-container">
+    <h2 class="dashboard-title">👨‍👩‍👧‍👦 Parent Dashboard</h2>
+    <div class="dashboard-welcome">
+        <p>Welcome, <strong>{{ current_user.username }}</strong>!</p>
+        <p>Monitor your child's learning progress and stay connected with their educational journey.</p>
+    </div>
+    
+    <div class="children-overview">
+        <h3>Your Children</h3>
+        <div class="children-grid">
+            <div class="child-card">
+                <div class="child-avatar">👧</div>
+                <div class="child-info">
+                    <h4>Emma Johnson</h4>
+                    <p>Age: 12 • Grade: 6</p>
+                    <div class="child-progress">
+                        <span class="progress-label">Overall Progress</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 78%;"></div>
+                        </div>
+                        <span class="progress-percent">78%</span>
+                    </div>
+                </div>
+                <a href="/dashboard/child/1" class="btn btn-primary">View Details</a>
+            </div>
+            
+            <div class="child-card">
+                <div class="child-avatar">👦</div>
+                <div class="child-info">
+                    <h4>Lucas Johnson</h4>
+                    <p>Age: 15 • Grade: 9</p>
+                    <div class="child-progress">
+                        <span class="progress-label">Overall Progress</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%;"></div>
+                        </div>
+                        <span class="progress-percent">85%</span>
+                    </div>
+                </div>
+                <a href="/dashboard/child/2" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-cards">
+        <div class="card recent-activity-card">
+            <h3>Recent Learning Activity</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-time">Today</span>
+                    <p>Emma completed "Fractions & Decimals" with 92% score</p>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-time">Yesterday</span>
+                    <p>Lucas finished "World War II" lesson</p>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-time">2 days ago</span>
+                    <p>Emma practiced "Creative Writing" for 45 minutes</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card performance-card">
+            <h3>Performance Summary</h3>
+            <div class="performance-metrics">
+                <div class="metric">
+                    <span class="metric-label">Emma's Avg Score</span>
+                    <span class="metric-value">87%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Lucas's Avg Score</span>
+                    <span class="metric-value">91%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Study Time</span>
+                    <span class="metric-value">12.5 hours</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Lessons Completed</span>
+                    <span class="metric-value">34</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card communication-card">
+            <h3>Teacher Communication</h3>
+            <div class="message-list">
+                <div class="message-item">
+                    <span class="message-sender">Ms. Rodriguez (Math)</span>
+                    <p>Emma is showing great improvement in algebra concepts!</p>
+                    <span class="message-time">2 days ago</span>
+                </div>
+                <div class="message-item">
+                    <span class="message-sender">Mr. Thompson (Science)</span>
+                    <p>Lucas excelled in the chemistry lab experiment.</p>
+                    <span class="message-time">1 week ago</span>
+                </div>
+            </div>
+            <a href="/dashboard/messages" class="btn btn-secondary">View All Messages</a>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="/dashboard/schedule" class="btn btn-secondary">View Schedule</a>
+            <a href="/dashboard/reports" class="btn btn-secondary">Download Reports</a>
+            <a href="/dashboard/goals" class="btn btn-secondary">Set Learning Goals</a>
+            <a href="/dashboard/contact-teacher" class="btn btn-primary">Contact Teacher</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.dashboard-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.dashboard-title { font-size: 2rem; margin-bottom: 1rem; color: #1f2937; }
+.dashboard-welcome { margin-bottom: 2rem; color: #6b7280; }
+.children-overview { margin-bottom: 2rem; }
+.children-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+.child-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+.child-avatar { font-size: 3rem; }
+.child-info { flex: 1; }
+.child-progress { margin-top: 0.5rem; }
+.progress-label { font-size: 0.875rem; color: #6b7280; }
+.progress-bar { background: #e5e7eb; border-radius: 8px; height: 8px; margin: 0.25rem 0; }
+.progress { background: #10b981; height: 100%; border-radius: 8px; }
+.progress-percent { font-size: 0.875rem; font-weight: 600; color: #10b981; }
+.dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+.activity-item, .message-item { padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+.activity-time, .message-time { font-size: 0.875rem; color: #9ca3af; }
+.message-sender { font-weight: 600; color: #4f46e5; }
+.performance-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.metric { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; }
+.metric-value { font-weight: 600; color: #10b981; }
+.quick-actions { text-align: center; }
+.action-buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+</style>
+{% endblock %}

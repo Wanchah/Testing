@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - EduMorph{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="settings-header">
+        <h1>Settings</h1>
+        <p>Customize your EduMorph experience</p>
+    </div>
+
+    <div class="settings-grid">
+        <div class="settings-card">
+            <div class="card-icon">🎨</div>
+            <h3>Theme & Appearance</h3>
+            <p>Customize colors, fonts, and visual elements</p>
+            <a href="{{ url_for('settings.themes') }}" class="settings-link">Customize Theme</a>
+        </div>
+
+        <div class="settings-card">
+            <div class="card-icon">📐</div>
+            <h3>Layout & Navigation</h3>
+            <p>Adjust page layout and navigation preferences</p>
+            <a href="{{ url_for('settings.layout') }}" class="settings-link">Customize Layout</a>
+        </div>
+
+        <div class="settings-card">
+            <div class="card-icon">♿</div>
+            <h3>Accessibility</h3>
+            <p>Configure accessibility features and preferences</p>
+            <a href="{{ url_for('settings.accessibility') }}" class="settings-link">Accessibility Settings</a>
+        </div>
+
+        <div class="settings-card">
+            <div class="card-icon">👤</div>
+            <h3>Profile Settings</h3>
+            <p>Manage your personal information and preferences</p>
+            <a href="#" class="settings-link">Edit Profile</a>
+        </div>
+
+        <div class="settings-card">
+            <div class="card-icon">🔔</div>
+            <h3>Notifications</h3>
+            <p>Configure notification preferences</p>
+            <a href="#" class="settings-link">Notification Settings</a>
+        </div>
+
+        <div class="settings-card">
+            <div class="card-icon">🔒</div>
+            <h3>Privacy & Security</h3>
+            <p>Manage your privacy and security settings</p>
+            <a href="#" class="settings-link">Privacy Settings</a>
+        </div>
+    </div>
+
+    <div class="settings-actions">
+        <button type="button" class="btn btn-secondary" onclick="resetAllSettings()">Reset All Settings</button>
+        <button type="button" class="btn btn-primary" onclick="exportSettings()">Export Settings</button>
+    </div>
+</div>
+
+<style>
+.settings-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.settings-header h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.settings-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.settings-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.settings-card h3 {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.settings-card p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.settings-link {
+    display: inline-block;
+    background: #4f46e5;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.settings-link:hover {
+    background: #4338ca;
+    color: white;
+    text-decoration: none;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+}
+
+@media (max-width: 768px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+
+<script>
+function resetAllSettings() {
+    if (confirm('Are you sure you want to reset all settings to default? This action cannot be undone.')) {
+        fetch('/settings/api/reset-preferences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Settings reset successfully!');
+                location.reload();
+            } else {
+                alert('Error resetting settings: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error resetting settings');
+        });
+    }
+}
+
+function exportSettings() {
+    fetch('/settings/api/get-preferences')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const blob = new Blob([JSON.stringify(data.preferences, null, 2)], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edumorph-settings.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } else {
+                alert('Error exporting settings: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error exporting settings');
+        });
+}
+</script>
+{% endblock %}
