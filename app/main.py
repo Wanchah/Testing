@@ -13,6 +13,7 @@ from flask import Blueprint, render_template, request, jsonify, current_app
 from flask_login import login_required, current_user
 from database.models import Lesson, Flashcard, Question, ExternalResource, SearchIndex
 from sqlalchemy import or_
+from app import db
 import json
 
 main_bp = Blueprint('main', __name__)
@@ -101,6 +102,13 @@ def search():
                          results=filtered_results, 
                          query=query, 
                          total=len(filtered_results))
+
+# Convenience redirects for the AI web search feature
+@main_bp.route('/web-search')
+@main_bp.route('/google-search')
+def redirect_web_search():
+    from flask import redirect, url_for
+    return redirect(url_for('ai_services.web_search'))
 
 @main_bp.route('/about')
 def about():

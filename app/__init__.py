@@ -30,12 +30,17 @@ def create_app(config_name='development'):
     Supports different configurations for development, testing, and production.
     """
     
-    app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates'))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    app = Flask(
+        __name__,
+        template_folder=os.path.join(base_dir, '..', 'templates'),
+        static_folder=os.path.join(base_dir, '..', 'static')
+    )
     
     # Configuration
     if config_name == 'development':
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'mysql+pymysql://root:WaNcHah_2002@localhost/edumorph')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///edumorph.db')
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['DEBUG'] = True
         app.config['UPLOAD_FOLDER'] = 'uploads'
