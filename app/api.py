@@ -11,7 +11,9 @@ This module handles:
 
 from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required, current_user
-from database.models import User, Lesson, Flashcard, Question, RevisionLog, EngagementMetric, db
+from database.models import User, Lesson, Flashcard, Question, RevisionLog, EngagementMetric
+from app import db
+from sqlalchemy import or_, func
 from datetime import datetime
 import json
 
@@ -47,7 +49,7 @@ def api_lessons():
         
         if search:
             query = query.filter(
-                db.or_(
+                or_(
                     Lesson.title.contains(search),
                     Lesson.description.contains(search),
                     Lesson.topic.contains(search)
@@ -254,7 +256,7 @@ def api_search():
         
         # Apply text search
         search_query = search_query.filter(
-            db.or_(
+            or_(
                 Lesson.title.contains(query),
                 Lesson.description.contains(query),
                 Lesson.topic.contains(query),
@@ -310,7 +312,7 @@ def api_stats():
         # Get lessons by age group
         age_group_stats = db.session.query(
             Lesson.age_group_target,
-            db.func.count(Lesson.id).label('count')
+            func.count(Lesson.id).label('count')
         ).filter_by(is_published=True).group_by(Lesson.age_group_target).all()
         
         for stat in age_group_stats:
@@ -319,7 +321,7 @@ def api_stats():
         # Get lessons by subject
         subject_stats = db.session.query(
             Lesson.subject,
-            db.func.count(Lesson.id).label('count')
+            func.count(Lesson.id).label('count')
         ).filter_by(is_published=True).group_by(Lesson.subject).all()
         
         for stat in subject_stats:
@@ -396,7 +398,7 @@ def api_user_recommendations():
         related_lessons = Lesson.query.filter(
             Lesson.is_published == True,
             Lesson.age_group_target == current_user.age_group.value,
-            db.or_(
+            or_(
                 Lesson.subject.in_(list(studied_subjects)),
                 Lesson.topic.in_(list(studied_topics))
             )

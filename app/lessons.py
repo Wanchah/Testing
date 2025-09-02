@@ -12,7 +12,9 @@ This module handles:
 
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
-from database.models import Lesson, Flashcard, Question, RevisionLog, EngagementMetric, db, User, UserRole, AgeGroup
+from database.models import Lesson, Flashcard, Question, RevisionLog, EngagementMetric, User, UserRole, AgeGroup, ContentFormat
+from app import db
+from sqlalchemy import or_
 from datetime import datetime
 import json
 
@@ -47,7 +49,7 @@ def create_sample_lessons():
             'subject': 'mathematics',
             'age_group_target': AgeGroup.TEENS,
             'difficulty_level': 'beginner',
-            'content': 'Algebra is a branch of mathematics that deals with symbols and the rules for manipulating these symbols.',
+            'ai_summary': 'Algebra is a branch of mathematics that deals with symbols and the rules for manipulating these symbols.',
             'tags': ['algebra', 'mathematics', 'equations', 'variables']
         },
         {
@@ -57,7 +59,7 @@ def create_sample_lessons():
             'subject': 'science',
             'age_group_target': AgeGroup.TEENS,
             'difficulty_level': 'beginner',
-            'content': 'Chemistry is the study of matter and the changes it undergoes.',
+            'ai_summary': 'Chemistry is the study of matter and the changes it undergoes.',
             'tags': ['chemistry', 'science', 'matter', 'reactions']
         },
         {
@@ -67,7 +69,7 @@ def create_sample_lessons():
             'subject': 'history',
             'age_group_target': AgeGroup.TEENS,
             'difficulty_level': 'beginner',
-            'content': 'Ancient civilizations laid the foundation for modern society.',
+            'ai_summary': 'Ancient civilizations laid the foundation for modern society.',
             'tags': ['history', 'ancient', 'civilizations', 'egypt', 'greece', 'rome']
         },
         {
@@ -77,7 +79,7 @@ def create_sample_lessons():
             'subject': 'literature',
             'age_group_target': AgeGroup.TEENS,
             'difficulty_level': 'beginner',
-            'content': 'Creative writing allows you to express your imagination through words.',
+            'ai_summary': 'Creative writing allows you to express your imagination through words.',
             'tags': ['writing', 'creative', 'literature', 'storytelling']
         }
     ]
@@ -90,7 +92,8 @@ def create_sample_lessons():
             subject=lesson_data['subject'],
             age_group_target=lesson_data['age_group_target'],
             difficulty_level=lesson_data['difficulty_level'],
-            content=lesson_data['content'],
+            ai_summary=lesson_data.get('ai_summary'),
+            format_type=ContentFormat.TEXT,
             tags=lesson_data['tags'],
             teacher_id=teacher.id,
             is_published=True
@@ -209,14 +212,17 @@ def index():
         query = query.filter(Lesson.subject == subject)
     
     if age_group != 'all':
-        query = query.filter(Lesson.age_group_target == age_group)
+        try:
+            query = query.filter(Lesson.age_group_target == AgeGroup(age_group))
+        except Exception:
+            pass
     
     if difficulty != 'all':
         query = query.filter(Lesson.difficulty_level == difficulty)
     
     if search_query:
         query = query.filter(
-            db.or_(
+            or_(
                 Lesson.title.contains(search_query),
                 Lesson.description.contains(search_query),
                 Lesson.topic.contains(search_query),
@@ -640,7 +646,7 @@ def api_recommendations():
         # Find related lessons
         related_lessons = Lesson.query.filter(
             Lesson.is_published == True,
-            db.or_(
+            or_(
                 Lesson.subject.in_(list(studied_subjects)),
                 Lesson.topic.in_(list(studied_topics))
             )

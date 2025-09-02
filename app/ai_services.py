@@ -19,10 +19,15 @@ from datetime import datetime
 from flask import Blueprint, request, jsonify, render_template, current_app, flash, redirect, url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from database.models import db, Document, Content, Flashcard, Question, AIChat
+from database.models import Document, Content, Flashcard, Question, AIChat, Lesson, AgeGroup, ContentFormat
+from app import db
 import PyPDF2
 from docx import Document as DocxDocument
 import openai
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None
 from pytube import YouTube
 import yt_dlp
 
@@ -32,10 +37,17 @@ ai_bp = Blueprint('ai_services', __name__, url_prefix='/ai')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
 HUGGINGFACE_API_KEY = os.environ.get('HUGGINGFACE_API_KEY', '')
 ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+SERPAPI_KEY = os.environ.get('SERPAPI_KEY', '')
 
-# Set OpenAI API key if available
+# Initialize OpenAI legacy and modern clients if possible
+openai_client = None
 if OPENAI_API_KEY:
-    openai.api_key = OPENAI_API_KEY
+    try:
+        openai.api_key = OPENAI_API_KEY
+        if OpenAI is not None:
+            openai_client = OpenAI(api_key=OPENAI_API_KEY)
+    except Exception:
+        pass
 
 # Supported file types
 ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt', 'ppt', 'pptx', 'md'}
@@ -102,7 +114,6 @@ def upload_document():
                         term=flashcard_data['term'],
                         definition=flashcard_data['definition'],
                         content_id=content_obj.id,
-                        user_id=current_user.id,
                         ai_generated=True
                     )
                     db.session.add(flashcard)
@@ -112,20 +123,33 @@ def upload_document():
                 for question_data in questions:
                     question = Question(
                         question_text=question_data['question'],
-                        answer=question_data['answer'],
+                        answer_text=question_data['answer'],
                         question_type=question_data['type'],
                         content_id=content_obj.id,
-                        user_id=current_user.id,
                         ai_generated=True
                     )
                     db.session.add(question)
                 
+                # Also create a Lesson from this content
+                try:
+                    lesson = create_lesson_from_content(
+                        title=os.path.splitext(filename)[0],
+                        subject=subject,
+                        summary=ai_content['summary'],
+                        user_id=current_user.id,
+                        age_group=current_user.age_group if hasattr(current_user, 'age_group') else AgeGroup.TEENS,
+                        format_type=filename.rsplit('.', 1)[1].lower()
+                    )
+                    db.session.add(lesson)
+                except Exception as _:
+                    pass
+
                 db.session.commit()
                 
                 # Clean up temp file
                 os.remove(temp_path)
                 
-                flash('Document processed successfully! AI content generated.', 'success')
+                flash('Document processed successfully! Lesson created from upload.', 'success')
                 return redirect(url_for('ai_services.view_content', content_id=content_obj.id))
                 
             except Exception as e:
@@ -309,35 +333,51 @@ def generate_openai_content(text, subject):
     
     try:
         # Optimize text length for faster processing
-        max_text_length = 2000  # Reduced from 4000 for faster processing
+        max_text_length = 2000
         if len(text) > max_text_length:
             text = text[:max_text_length] + "..."
-        
-        # Single optimized API call instead of multiple calls
-        combined_prompt = f"""
-        Subject: {subject}
-        Content: {text}
-        
-        Provide a structured response with:
-        1. SUMMARY: Brief 2-3 sentence summary
-        2. KEY_CONCEPTS: 3-5 main concepts (one per line)
-        3. NOTES: Structured educational notes
-        
-        Keep responses concise and educational.
-        """
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": f"You are an expert educator in {subject}. Provide structured, concise responses."},
-                {"role": "user", "content": combined_prompt}
-            ],
-            max_tokens=400,  # Reduced total tokens
-            temperature=0.5,  # More consistent responses
-            timeout=15  # Add timeout for faster failure handling
+
+        combined_prompt = (
+            f"Subject: {subject}\nContent: {text}\n\n"
+            "Provide a structured response with:\n"
+            "1. SUMMARY: Brief 2-3 sentence summary\n"
+            "2. KEY_CONCEPTS: 3-5 main concepts (one per line)\n"
+            "3. NOTES: Structured educational notes\n"
+            "Keep responses concise and educational."
         )
-        
-        ai_response = response.choices[0].message.content
+
+        ai_response = None
+        # Prefer modern client if available
+        if openai_client is not None:
+            try:
+                resp = openai_client.responses.create(
+                    model="gpt-4o-mini",
+                    input=[
+                        {
+                            "role": "system",
+                            "content": f"You are an expert educator in {subject}. Provide structured, concise responses."
+                        },
+                        {"role": "user", "content": combined_prompt}
+                    ],
+                    max_output_tokens=400,
+                )
+                ai_response = getattr(resp, "output_text", None) or str(resp)
+            except Exception:
+                ai_response = None
+
+        if not ai_response:
+            # Fallback to legacy ChatCompletion
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": f"You are an expert educator in {subject}. Provide structured, concise responses."},
+                    {"role": "user", "content": combined_prompt}
+                ],
+                max_tokens=400,
+                temperature=0.5,
+                timeout=15
+            )
+            ai_response = response.choices[0].message.content
         
         # Parse the combined response
         lines = ai_response.split('\n')
@@ -522,11 +562,31 @@ def get_ai_response(message, context, user):
     """Get AI response for chat."""
     
     try:
-        if openai.api_key:
+        if OPENAI_API_KEY:
+            # Prefer modern client
+            if openai_client is not None:
+                try:
+                    resp = openai_client.responses.create(
+                        model="gpt-4o-mini",
+                        input=[
+                            {
+                                "role": "system",
+                                "content": f"You are an AI tutor helping a {getattr(user.age_group, 'value', 'student')} student with {context} questions. Provide helpful, educational responses."
+                            },
+                            {"role": "user", "content": message}
+                        ],
+                        max_output_tokens=500,
+                    )
+                    text = getattr(resp, "output_text", None)
+                    if text:
+                        return text
+                except Exception:
+                    pass
+            # Legacy fallback
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": f"You are an AI tutor helping a {user.age_group.value} student with {context} questions. Provide helpful, educational responses."},
+                    {"role": "system", "content": f"You are an AI tutor helping a {getattr(user.age_group, 'value', 'student')} student with {context} questions. Provide helpful, educational responses."},
                     {"role": "user", "content": message}
                 ],
                 max_tokens=500
@@ -768,15 +828,95 @@ def web_search():
                 flash('Search query is required.', 'error')
                 return redirect(url_for('ai_services.web_search'))
             
-            # Use a simple web search (you can integrate with Google Custom Search API or other services)
+            # Prefer Google Custom Search API if keys are available
             search_results = perform_web_search(search_query, max_results)
             
             # Process each result
             processed_results = []
             for result in search_results:
                 try:
-                    # Extract content from the webpage
-                    content = extract_webpage_content(result['url'])
+                    url = result['url']
+                    # If result is a document (pdf/docx), download and process
+                    if url.lower().endswith(('.pdf', '.docx')):
+                        file_resp = requests.get(url, timeout=15)
+                        if file_resp.status_code == 200:
+                            filename = secure_filename(url.split('/')[-1])
+                            temp_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                            with open(temp_path, 'wb') as f:
+                                f.write(file_resp.content)
+                            extracted_text = extract_document_content(temp_path, filename)
+                            ai_content = generate_ai_content(extracted_text, subject)
+                            document = Document(
+                                filename=filename,
+                                subject=subject,
+                                user_id=current_user.id,
+                                content_length=len(extracted_text),
+                                file_type=filename.rsplit('.', 1)[1].lower(),
+                                source_url=url
+                            )
+                            db.session.add(document)
+                            db.session.flush()
+                            content_obj = Content(
+                                document_id=document.id,
+                                raw_content=extracted_text,
+                                ai_generated_notes=ai_content['notes'],
+                                ai_generated_summary=ai_content['summary'],
+                                key_concepts=ai_content['key_concepts'],
+                                user_id=current_user.id
+                            )
+                            db.session.add(content_obj)
+                            try:
+                                lesson = create_lesson_from_content(
+                                    title=os.path.splitext(filename)[0],
+                                    subject=subject,
+                                    summary=ai_content['summary'],
+                                    user_id=current_user.id,
+                                    age_group=current_user.age_group if hasattr(current_user, 'age_group') else AgeGroup.TEENS,
+                                    format_type=filename.rsplit('.', 1)[1].lower()
+                                )
+                                db.session.add(lesson)
+                            except Exception as _:
+                                pass
+                            processed_results.append({
+                                'title': result['title'],
+                                'url': url,
+                                'content_id': None,
+                                'snippet': ai_content['summary']
+                            })
+                            try:
+                                os.remove(temp_path)
+                            except Exception:
+                                pass
+                    else:
+                        # Otherwise treat as webpage
+                        content = extract_webpage_content(url)
+                        
+                        if content and len(content) > 100:
+                            document = Document(
+                                filename=f"web_{result['title'][:50]}.html",
+                                subject=subject,
+                                user_id=current_user.id,
+                                content_length=len(content),
+                                file_type='html',
+                                source_url=url
+                            )
+                            db.session.add(document)
+                            db.session.flush()
+                            content_obj = Content(
+                                document_id=document.id,
+                                raw_content=content,
+                                ai_generated_notes='',
+                                ai_generated_summary='',
+                                key_concepts=[],
+                                user_id=current_user.id
+                            )
+                            db.session.add(content_obj)
+                            processed_results.append({
+                                'title': result['title'],
+                                'url': url,
+                                'content_id': content_obj.id,
+                                'snippet': content[:200] + "..." if len(content) > 200 else content
+                            })
                     
                     if content and len(content) > 100:  # Only process if we got meaningful content
                         # Create document record
@@ -831,31 +971,70 @@ def web_search():
     
     return render_template('ai_services/web_search.html')
 
+# Route aliases for convenience
+@ai_bp.route('/google', methods=['GET', 'POST'])
+@ai_bp.route('/search-docs', methods=['GET', 'POST'])
+@login_required
+def web_search_alias():
+    return web_search()
+
 def perform_web_search(query, max_results=5):
-    """Perform web search and return results."""
-    # This is a placeholder implementation
-    # In a real application, you would use Google Custom Search API, Bing Search API, or similar
-    
-    # For demonstration, return some sample results
-    sample_results = [
+    """Perform web search via SerpAPI or Google CSE if configured, else fallback."""
+    # Prefer SerpAPI if provided (doesn't require CSE ID)
+    if SERPAPI_KEY:
+        try:
+            params = {
+                'engine': 'google',
+                'q': query,
+                'num': max_results,
+                'api_key': SERPAPI_KEY
+            }
+            resp = requests.get('https://serpapi.com/search.json', params=params, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            results = []
+            for item in data.get('organic_results', [])[:max_results]:
+                results.append({
+                    'title': item.get('title', ''),
+                    'url': item.get('link', ''),
+                    'snippet': item.get('snippet', '')
+                })
+            if results:
+                return results
+        except Exception:
+            pass
+    api_key = os.environ.get('GOOGLE_API_KEY')
+    cse_id = os.environ.get('GOOGLE_CSE_ID')
+    if api_key and cse_id:
+        try:
+            params = {
+                'key': api_key,
+                'cx': cse_id,
+                'q': query,
+                'num': max_results
+            }
+            resp = requests.get('https://www.googleapis.com/customsearch/v1', params=params, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            items = data.get('items', [])
+            results = []
+            for item in items:
+                results.append({
+                    'title': item.get('title', ''),
+                    'url': item.get('link', ''),
+                    'snippet': item.get('snippet', '')
+                })
+            return results
+        except Exception as _:
+            pass
+    # Fallback
+    return [
         {
             'title': f'Educational Resource: {query}',
             'url': f'https://example.com/education/{query.replace(" ", "-")}',
             'snippet': f'Comprehensive educational content about {query}...'
-        },
-        {
-            'title': f'Study Guide: {query}',
-            'url': f'https://example.com/study/{query.replace(" ", "-")}',
-            'snippet': f'Detailed study materials for {query}...'
-        },
-        {
-            'title': f'Academic Article: {query}',
-            'url': f'https://example.com/academic/{query.replace(" ", "-")}',
-            'snippet': f'Research and academic content on {query}...'
         }
     ]
-    
-    return sample_results[:max_results]
 
 def extract_webpage_content(url):
     """Extract text content from a webpage."""
@@ -877,3 +1056,29 @@ def view_content(content_id):
     """View processed AI content."""
     content = Content.query.get_or_404(content_id)
     return render_template('ai_services/view_content.html', content=content)
+
+
+# Internal helper to create a Lesson row from extracted content
+def create_lesson_from_content(title: str, subject: str, summary: str, user_id: int, age_group: AgeGroup, format_type: str) -> Lesson:
+    format_map = {
+        'pdf': ContentFormat.PDF,
+        'docx': ContentFormat.DOCX,
+        'txt': ContentFormat.TEXT,
+        'md': ContentFormat.TEXT,
+        'ppt': ContentFormat.TEXT,
+        'pptx': ContentFormat.TEXT,
+        'html': ContentFormat.TEXT
+    }
+    ft = format_map.get(format_type.lower(), ContentFormat.TEXT)
+    return Lesson(
+        title=title[:200],
+        description=summary[:500] if summary else None,
+        topic=subject.title(),
+        subject=subject,
+        teacher_id=user_id,
+        age_group_target=age_group,
+        format_type=ft,
+        ai_summary=summary,
+        is_published=True,
+        tags=[]
+    )

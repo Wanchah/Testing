@@ -11,11 +11,25 @@ This module handles:
 
 from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for
 from flask_login import login_required, current_user
-from database.models import User, Lesson, Flashcard, Question, RevisionLog, EngagementMetric, db
+from database.models import User, Lesson, Flashcard, Question, RevisionLog, EngagementMetric, UserRole
+from app import db
+from sqlalchemy import func
 from datetime import datetime, timedelta
 import json
 
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
+
+@dashboard_bp.route('/')
+@login_required
+def dashboard_index():
+    """Redirect user to role-appropriate dashboard."""
+    if current_user.role == UserRole.STUDENT:
+        return redirect(url_for('dashboard.student_dashboard'))
+    if current_user.role == UserRole.TEACHER or current_user.role == UserRole.ADMIN:
+        return redirect(url_for('dashboard.teacher_dashboard'))
+    if current_user.role == UserRole.PARENT:
+        return redirect(url_for('dashboard.parent_dashboard'))
+    return redirect(url_for('main.index'))
 
 @dashboard_bp.route('/student')
 @login_required
@@ -35,7 +49,7 @@ def student_dashboard():
     
     # Get recommended lessons based on age group
     recommended_lessons = Lesson.query.filter_by(
-        age_group_target=current_user.age_group.value,
+        age_group_target=current_user.age_group,
         is_published=True
     ).order_by(Lesson.created_at.desc()).limit(6).all()
     
@@ -183,13 +197,13 @@ def api_progress_chart():
         
         # Get daily activity counts
         daily_activity = db.session.query(
-            db.func.date(EngagementMetric.timestamp).label('date'),
-            db.func.count(EngagementMetric.id).label('count')
+            func.date(EngagementMetric.timestamp).label('date'),
+            func.count(EngagementMetric.id).label('count')
         ).filter(
             EngagementMetric.user_id == current_user.id,
             EngagementMetric.timestamp >= start_date,
             EngagementMetric.timestamp <= end_date
-        ).group_by(db.func.date(EngagementMetric.timestamp)).all()
+        ).group_by(func.date(EngagementMetric.timestamp)).all()
         
         # Format data for chart
         chart_data = []
@@ -312,8 +326,8 @@ def get_subject_performance(user_id):
         # Get revision logs with lesson information
         performance_data = db.session.query(
             Lesson.subject,
-            db.func.avg(RevisionLog.score).label('avg_score'),
-            db.func.count(RevisionLog.id).label('attempts')
+            func.avg(RevisionLog.score).label('avg_score'),
+            func.count(RevisionLog.id).label('attempts')
         ).join(RevisionLog, Lesson.id == RevisionLog.lesson_id)\
         .filter(RevisionLog.user_id == user_id)\
         .group_by(Lesson.subject).all()
@@ -383,9 +397,9 @@ def get_age_group_lesson_stats():
     try:
         age_group_stats = db.session.query(
             Lesson.age_group_target,
-            db.func.count(Lesson.id).label('lesson_count'),
-            db.func.count(Flashcard.id).label('flashcard_count'),
-            db.func.count(Question.id).label('question_count')
+            func.count(Lesson.id).label('lesson_count'),
+            func.count(Flashcard.id).label('flashcard_count'),
+            func.count(Question.id).label('question_count')
         ).outerjoin(Flashcard, Lesson.id == Flashcard.lesson_id)\
         .outerjoin(Question, Lesson.id == Question.lesson_id)\
         .group_by(Lesson.age_group_target).all()
